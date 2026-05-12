@@ -27,10 +27,13 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG") == "True"
+DEBUG = os.getenv("DEBUG") == "False"
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "ai-resume-analyser-y5cv.onrender.com",
+]
 
 # Application definition
 
