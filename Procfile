@@ -1,1 +1,1 @@
-web: gunicorn config.wsgi
+web: gunicorn resume_analyser.config.wsgi:application
