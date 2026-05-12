@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home — AI Resume Analyser{% endblock %}
+
+{% block content %}
+
+<div class="app-container">
+    {% include "components/sidebar.html" %}
+<div class="main-content" style="
+                                flex: 1;
+                                display: flex;
+                                flex-direction: column;   /* stack title above card */
+                                align-items: center;  /* align left, not centered */
+                                padding: 2rem;">
+    <header>
+        <h1 style="text-align: center;">{% block page_title %}AI Resume Analyser{% endblock %}</h1>
+    </header>
+    <!-- CSRF token read by app.js for all AJAX/fetch calls -->
+    <input type="hidden" id="csrfToken" value="{{ csrf_token }}">
+
+    
+
+    <!-- ── 1. Resume Upload ─────────────────────────────────── -->
+    <section class="card" id="uploadSection">
+        <h3>Upload Resume <span class="badge">PDF only</span></h3>
+
+        <div id="uploadBox" class="upload-box" role="button" tabindex="0"
+             aria-label="Upload resume PDF">
+            <p id="uploadText">
+                Drag &amp; drop your resume PDF here<br>
+                or <strong>click to browse</strong>
+            </p>
+            <input type="file" id="resumeFile" accept=".pdf" hidden>
+        </div>
+
+        <button id="analyzeBtn">Analyze Resume</button>
+        {% include 'components/loading.html' %}
+    </section>
+</div>
+</div>
+{% endblock %}
+
+{# ── Page-specific CSS ──────────────────────────────────────────── #}
+{% block extra_css %}
+<style>
+    /* Badge pill */
+    .badge {
+        display: inline-block;
+        padding: 2px 10px;
+        background: var(--primary-light);
+        color: var(--primary);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 999px;
+        vertical-align: middle;
+        margin-left: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .badge--green {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    /* Job action buttons row */
+    .job-action-btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 4px;
+    }
+
+    .job-action-btns button {
+        margin-top: 0;
+    }
+
+    /* Analyse button — full width, prominent */
+    #analyzeBtn {
+        width: 100%;
+        margin-top: 16px;
+        padding: 12px;
+        font-size: 15px;
+        letter-spacing: 0.02em;
+    }
+
+    /* Upload box file-selected state */
+    .upload-box.file-selected {
+        border-color: var(--accent);
+        background: #f0fff1;
+    }
+
+    .upload-box.file-selected p { color: var(--accent-dark); }
+</style>
+{% endblock %}
+
+{# ── Page-specific JS ───────────────────────────────────────────── #}
+
+
+<script src="{% static 'js/app.js' %}"></script>
+{% block extra_js %}
+    <script src="{% static 'js/home.js' %}"></script>
+    <script>
+        
+        window.addEventListener("load", () => {
+            document
+                .getElementById("loadingOverlay")
+                .classList.add("hidden");
+        });  
+    </script>
+{% endblock %}

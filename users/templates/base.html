@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page Title -->
+    <title>{% block title %}AI Resume Analyser{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+    <!-- Global Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- Per-page extra CSS (optional override in child templates) -->
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- ═══════════════════════════════════════════
+         SIDEBAR
+         Extend `sidebar_content` in child templates
+         to inject resume list items, nav links, etc.
+    ═══════════════════════════════════════════ -->
+    {% block sidebar %}
+    
+    {% endblock %}
+
+    <!-- ═══════════════════════════════════════════
+         MAIN CONTENT
+         Every page extends this block with its own
+         sections (upload card, ATS score, etc.)
+    ═══════════════════════════════════════════ -->
+    <main class="main-content">
+
+        <!-- Page-level heading (child templates can override) -->
+        <header class="main-header">
+
+            <!-- Flash / Django messages -->
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message message--{{ message.tags }}">
+                            {{ message }}
+                            <button class="message-close" aria-label="Dismiss">&times;</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </header>
+
+        <!-- Primary page content lives here -->
+        {% block content %}{% endblock %}
+
+    </main>
+
+</div><!-- /.app-container -->
+
+<!-- ═══════════════════════════════════════════
+     SCRIPTS
+     Global JS first, then per-page extras.
+═══════════════════════════════════════════ -->
+<script>
+    const isAuthenticated =
+        "{{ request.user.is_authenticated }}" === "True";
+</script>
+<script src="{% static 'js/app.js' %}"></script>
+
+<!-- Inline dismissal for flash messages -->
+
+<!-- Per-page extra JS (optional override in child templates) -->
+{% block extra_js %}
+{% endblock %}
+
+</body>
+</html>

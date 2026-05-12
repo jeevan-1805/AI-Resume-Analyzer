@@ -1,0 +1,57 @@
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static "css/register.css" %}">
+<body>
+
+<div class="container" style=" 
+    text-align: left;
+    ">
+        <h2 style="text-align: center;">Create Account</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Register</button>
+        </form>
+        <p style="text-align: center;">Deja vu? Try Login.</p>
+        <button type="button" onclick="location.href='{% url 'login' %}'">Log in</button>
+        {% include 'components/loading.html' %}
+</div>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: aqua;          /* soft gray background */
+        display: flex;
+        justify-content:center;
+        align-items:center;
+        height: 100vh;
+        margin-top: 10%;
+        margin-bottom: 10%;
+    }
+
+    .container {
+        margin-top: 20%;
+        margin-bottom: 20%;
+        background: #ffffff;          /* white card */
+        padding: 2rem;
+        border-radius: 12px;          /* rounded corners */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* subtle shadow */
+        width: 450px;                 /* fixed width for readability */
+        text-align:left;
+    }
+</style>
+<script>
+    const registerForm = document.querySelector("form");
+
+    registerForm.addEventListener("submit", () => {
+
+        document
+            .getElementById("loadingOverlay")
+            .classList.remove("hidden");
+
+    });
+</script>
+<script src="{% static 'js/app.js' %}"></script>
+{% endblock %}
+</body>

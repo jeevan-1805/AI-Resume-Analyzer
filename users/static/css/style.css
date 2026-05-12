@@ -1,0 +1,414 @@
+/* THIS IS MY CURRENT PROJECT CSS */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: aqua;
+    height: 100%; /* Full viewport height */
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;      /* prevent double scrollbars on viewport */
+}
+
+a{
+    margin-top: 5px;
+    position: relative;          /* allow pseudo-element positioning */
+    text-decoration: none;
+    color: aqua;
+    padding: 0.3rem 0.6rem;      /* space for hover background */
+    border-radius: 8px;          /* rounded corners */
+    transition: background-color 0.3s ease;
+}
+
+a:hover {
+    background-color: rgba(0, 123, 255, 0.336); /* low opacity rectangle */
+}
+
+
+
+/* Sidebar */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    background-color: #1e1e2f;
+    color: #ffffff;
+    padding: 1rem;
+    height: 100%;
+}
+
+.sidebar-brand {
+  padding: 12px 16px;
+  font-weight: 600;
+  /* optional border-bottom for separation */
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.sidebar h2 {
+    margin-bottom: 15px;
+}
+
+.new-resume-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.resume-list {
+    margin-top: 20px;
+    /* allow this area to grow and shrink between brand and footer */
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.list-scroll {
+  flex: 1 1 auto;           /* take all remaining vertical space */
+  overflow-y: auto;         /* vertical scroll when items exceed height */
+  overflow-x: auto;         /* horizontal scroll if a single link is too long */
+  padding: 8px 0;           /* vertical breathing room for items */
+  box-sizing: border-box;
+}
+
+.sidebar-footer {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.02);
+  flex: 0 0 auto;           /* do not grow or shrink */
+}
+
+.list-scroll a {
+  display: block;           /* each link on its own line */
+  white-space: nowrap;      /* prevent wrapping to next line */
+  padding: 8px 16px;
+  color: #e6eef8;
+  text-decoration: none;
+  border-radius: 6px;
+  margin: 0 8px 4px 8px;   /* small gap between items */
+  
+}
+
+.list-scroll a:hover {
+  background: rgba(98, 179, 255, 0.267);
+  color: #fff;
+}
+
+.rdmain{
+    display: flex;
+    flex-direction: row;
+    overflow-y: hidden;
+}
+
+.rdsub1 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    align-items: center;
+}
+
+
+.empty-text {
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 3px;
+    overflow: hidden;
+}
+
+.main-content h1 {
+    margin-bottom: 20px;
+}
+
+/* Cards */
+.card {
+    display: flex;
+    flex-direction: column;
+
+    background: #ffffff;
+    width: 100%;
+    max-width: 600px;
+
+    height: 80%;
+
+    padding: 2rem;
+    margin: 1rem auto;
+
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+    overflow: visible;
+}
+
+#feedbackText {
+    flex: 1;
+
+    overflow-y: auto;
+
+    text-align: left;
+
+    margin-top: 1rem;
+
+    padding-right: 10px;
+}
+
+
+.card h3, h2 {
+    margin-bottom: 15px;
+}
+
+input[type="file"],
+input[type="text"] {
+    padding: 8px;
+    margin-right: 10px;
+}
+
+/* Add this to style.css */
+
+
+button {
+    margin: 10px;
+    padding: 8px 8px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+}
+
+#resumeTitleInput{
+    width: 50vw;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-width: 2px;
+    border-color: #1e1e2f4d;                                               
+    background: transparent;
+    padding: 8px 6px;
+    border-radius: 8px;                  
+    box-sizing: border-box;
+}
+
+#customJob{
+    width: 40vw;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-width: 2px;
+    border-color: #1e1e2f4d;                                               
+    background: transparent;
+    padding: 8px 6px;
+    border-radius: 8px;                  
+    box-sizing: border-box;
+}
+
+.resume-title-container {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+}
+
+.resume-title-input {
+    width: 400px;
+    padding: 12px 16px;
+    font-size: 28px;
+    font-weight: bold;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+}
+
+#saveTitleBtn {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* ATS Circle */
+.ats-ring {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #1976d2 0deg,
+        #e0e0e0 0deg
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ats-inner {
+    width: 85px;
+    height: 85px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+
+/* Strength Bar */
+.strength-bar {
+    width: 100%;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.strength-fill {
+    height: 100%;
+    width: 0%;
+    background-color: #4caf50;
+}
+
+/* Utility */
+.hidden {
+    display: none;
+}
+
+.upload-box {
+    border: 2px dashed #1976d2;
+    padding: 30px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    background-color: #f9fbff;
+}
+
+.upload-box:hover {
+    background-color: #7fa4e9;
+}
+
+.upload-box.dragover {
+    background-color: #96c7eb;
+    border-color: #0d47a1;
+}
+
+.upload-box p {
+    margin: 0;
+    font-weight: 500;
+    color: #333;
+}
+
+.job-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.job-card {
+    color: #1e1e2f;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s;
+    background: #fafafa;
+    pointer-events: auto;
+}
+
+.job-card:hover {
+    border-color: #1976d2;
+    background: #eef4ff;
+}
+
+.job-card.selected {
+    border-color: #1976d2;
+    background: #89c6f1;
+    font-weight: bold;
+}
+
+#optimizeJobBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.custom-job-option {
+    margin-top: 15px;
+}
+
+.custom-job-option input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+}
+
+#deleteResumeBtn{
+    background-color: red;
+}
+
+.resume-link {
+    display: block;
+
+    padding: 12px;
+
+    margin-bottom: 10px;
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    color: white;
+
+    transition: 0.3s;
+}
+
+.active-resume {
+
+    background: rgba(255, 255, 255, 0.12);
+
+    border: 1px solid rgba(255,255,255,0.2);
+
+    box-shadow:
+        0 0 10px rgba(25, 118, 210, 0.5),
+        0 0 20px rgba(25, 118, 210, 0.3);
+
+    transform: scale(1.02);
+}
+
+.resume-link:hover {
+
+    background: rgba(255,255,255,0.08);
+
+    transform: translateX(4px);
+}

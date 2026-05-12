@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Resume Analyser{% endblock %}
+{% block content %}
+    <div class="app-container">
+
+        {% include "components/sidebar.html" %}
+        <div class="rdsub1">
+                <div class="resume-title-container">
+
+                    <input
+                        type="text"
+                        id="resumeTitleInput"
+                        value="{{ resume.title }}"
+                        class="resume-title-input"
+                    >
+
+                    <button id="saveTitleBtn">
+                        Save
+                    </button>
+
+                    
+
+
+                </div>
+                <h3 style="text-align: center; width: 100vw;">Uploaded At: {{ resume.uploaded_at }}</h3>
+            
+            {% include "components/ats_section.html" %}
+
+            {% include "components/feedback_section.html" %}
+
+            {% include "components/job_section.html" %}
+
+            {% include "components/editor_section.html" %}
+
+            <button id="deleteResumeBtn">
+                Delete Resume
+            </button>
+        </div>
+    </div>
+    <script>
+        const resumeId = {{ resume.id }};
+        const csrfToken = "{{ csrf_token }}";
+        const atsScore = {{ resume.ats_score|default:0 }};
+        const strengthScore = {{ resume.strength_score|default:0 }};
+        const aiFeedback = `{{ resume.ai_feedback|default_if_none:""|escapejs }}`;
+        const jobRoles = JSON.parse('{{ job_roles|escapejs }}');
+    </script>
+
+    <script src="{% static 'js/resume_detail.js' %}"></script>
+    <script src="{% static 'js/app.js' %}" ></script>
+{% endblock  %}

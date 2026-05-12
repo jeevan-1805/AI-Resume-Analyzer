@@ -1,0 +1,111 @@
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static "css/register.css" %}">
+<div class="container">
+
+    <h2 style="text-align: center;">Delete Account</h2>
+    <p style="text-align:center; color:red;">
+        This action is permanent.
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input 
+            type="password" 
+            name="password"
+            placeholder="Enter your account password"
+            required
+        >
+
+        <div style="display: flex; flex-direction: row;">
+
+            <button type="submit" style="background-color: red;">Delete</button>
+            <button type="button" onclick="location.href='/'">Cancel</button>
+    
+        </div>
+    </form>
+
+    {% include 'components/loading.html' %}
+
+</div>
+<style>
+        .container {
+        margin-top: 20%;
+        margin-bottom: 20%;
+        background: #ffffff;          /* white card */
+        padding: 2rem;
+        border-radius: 12px;          /* rounded corners */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* subtle shadow */
+        width: 380px;                 /* fixed width for readability */
+        text-align:left;
+    }
+    .container h2 {
+        margin-bottom: 1.5rem;
+        color: #333333;
+        font-size: 1.5rem;
+    }
+
+    .container input[type="text"],
+    .container input[type="password"] {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .container input[type="text"]:focus,
+    .container input[type="password"]:focus {
+        outline: none;
+        border-color: #007bff;        /* highlight border */
+        box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+    }
+
+    .container button {
+        margin: 10px;
+        width: 100%;
+        padding: 0.75rem;
+        background: #007bff;          /* primary blue */
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .container button:hover {
+        background: #0056b3;          /* darker blue */
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: aqua;          /* soft gray background */
+        display: flex;
+        justify-content:center;
+        align-items:center;
+        height: 100vh;
+    }
+</style>
+<script>
+    {% if error %}
+        const err_msg = {{err_msg}};
+        alert(err_msg);
+    {% endif %}
+    const Form = document.querySelector("form");
+
+    Form.addEventListener("submit", () => {
+
+        document
+            .getElementById("loadingOverlay")
+            .classList.remove("hidden");
+
+    });
+</script>
+
+{% endblock %}

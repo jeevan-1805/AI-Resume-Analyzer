@@ -1,0 +1,32 @@
+<section class="card" id="jobSection">
+        <h3>Recommended Job Roles</h3>
+
+        <div id="jobCards"
+             class="job-cards"
+             tabindex="0"
+             role="listbox"
+             aria-label="Job role options">
+        </div>
+
+        <div class="custom-job-option">
+            <label>
+                <input type="radio" name="jobMode" id="customJobRadio">
+                Use a custom job role instead
+            </label>
+            <input type="text"
+                   id="customJob"
+                   placeholder="e.g. Machine Learning Engineer"
+                   disabled>
+        </div>
+
+        <div class="job-action-btns">
+            <center>
+            <button id="optimizeJobBtn" disabled>
+                Optimize for Selected Role
+            </button>
+            <button id="optimizeGeneralBtn">
+                Optimize for General Purpose
+            </button>
+            </center>
+        </div>
+</section>

@@ -1,0 +1,69 @@
+<aside class="sidebar">
+
+        <!-- Brand / Logo -->
+        <div class="sidebar-brand">
+            <span class="brand-icon">📄</span>
+            <span class="brand-name">ResumeAI</span>
+        </div>
+
+        <h2>My Resumes</h2>
+
+        <a href="{% url 'users:generate_resume' %}" class="new-resume-btn">
+            + Generate New Resume<br>(available in future)
+        </a>
+
+        <!-- Dynamic resume list injected by child templates -->
+        <div class="resume-list">
+            {% block sidebar_content %}
+                {% if resumes %}
+                    <div class="list-scroll" style="overflow: auto;">
+                    {% for resume in resumes %}
+                        {% url 'users:resume_detail' resume.id as resume_url %}
+                        <a 
+                            href="{{ resume_url }}" style="text-decoration: none; font-size: smaller;" id="resumelinks"
+                            class="
+                                resume-link
+
+                                {% if request.path == resume_url %}
+                                    active-resume
+                                {% endif %}
+                            "
+                        >
+                            {{ resume.title }}
+                        </a>
+                      
+                    {% endfor %}
+                    </div>
+                {% else %}
+                        <p class="empty-text">No resumes yet</p>
+                {% endif %}
+            {% endblock %}
+                
+        </div>
+        <!-- Auth links at the bottom of the sidebar -->
+        <div class="sidebar-footer">
+            {% if user.is_authenticated %}
+                <span class="sidebar-user">User: {{ user.username }}</span>
+                <div class="authBtn">
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="sidebar-auth-link">Log out</button>
+                    </form>
+                        <button type="button" onclick="location.href='{% url 'users:delete_account' %}'" style="background-color: red;">Delete Account</button>
+                        <button type="button" onclick="location.href='/'" style="background-color: rgb(158, 134, 0);">Home</button>
+                </div>
+            {% else %}
+                <p style="font-size: 15px; text-align: center;">Sign Up to Register / Log in to continue</p>
+                <button style="margin-right: 20px; margin-left: 25px;" type="button" onclick="location.href='{% url 'login' %}'" class="sidebar-auth-link">Log in</button>
+                <button type="button" onclick="location.href='{% url 'users:register' %}'" class="sidebar-auth-link sidebar-auth-link--accent">Sign up</button>
+            {% endif %}
+
+        </div>
+</aside>
+<style>
+    .authBtn{
+        display: flex;
+        flex-direction: row;
+    }
+</style>
+<
