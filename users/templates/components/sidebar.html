@@ -1,4 +1,5 @@
-<aside class="sidebar">
+
+<aside class="sidebar" id="sidebar">
 
         <!-- Brand / Logo -->
         <div class="sidebar-brand">
@@ -45,16 +46,17 @@
             {% if user.is_authenticated %}
                 <span class="sidebar-user">User: {{ user.username }}</span>
                 <div class="authBtn">
-                    <form action="{% url 'logout' %}" method="post">
+                    <form action="{% url 'logout' %}" method="post" id="authForm">
                         {% csrf_token %}
                         <button type="submit" class="sidebar-auth-link">Log out</button>
-                    </form>
                         <button type="button" onclick="location.href='{% url 'users:delete_account' %}'" style="background-color: red;">Delete Account</button>
                         <button type="button" onclick="location.href='/'" style="background-color: rgb(158, 134, 0);">Home</button>
+                    </form>
+                        
                 </div>
             {% else %}
                 <p style="font-size: 15px; text-align: center;">Sign Up to Register / Log in to continue</p>
-                <button style="margin-right: 20px; margin-left: 25px;" type="button" onclick="location.href='{% url 'login' %}'" class="sidebar-auth-link">Log in</button>
+                <button type="button" onclick="location.href='{% url 'login' %}'" class="sidebar-auth-link">Log in</button>
                 <button type="button" onclick="location.href='{% url 'users:register' %}'" class="sidebar-auth-link sidebar-auth-link--accent">Sign up</button>
             {% endif %}
 

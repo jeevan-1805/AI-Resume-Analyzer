@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 {% load static %}
 
 {% block title %}Home — AI Resume Analyser{% endblock %}
+
 
 {% block content %}
 
@@ -15,6 +20,7 @@
                                 padding: 2rem;">
     <header>
         <h1 style="text-align: center;">{% block page_title %}AI Resume Analyser{% endblock %}</h1>
+        <p style="text-align: center;">Get ATS score, Resume Strength, AI Feedback and<br>tailored executive summary for your Resume</p>
     </header>
     <!-- CSRF token read by app.js for all AJAX/fetch calls -->
     <input type="hidden" id="csrfToken" value="{{ csrf_token }}">
@@ -81,6 +87,7 @@
     #analyzeBtn {
         width: 100%;
         margin-top: 16px;
+        margin-left: auto;
         padding: 12px;
         font-size: 15px;
         letter-spacing: 0.02em;
@@ -93,13 +100,16 @@
     }
 
     .upload-box.file-selected p { color: var(--accent-dark); }
+    .card{
+        height: fit-content;
+    }
 </style>
 {% endblock %}
 
 {# ── Page-specific JS ───────────────────────────────────────────── #}
 
 
-<script src="{% static 'js/app.js' %}"></script>
+
 {% block extra_js %}
     <script src="{% static 'js/home.js' %}"></script>
     <script>

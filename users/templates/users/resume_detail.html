@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 {% load static %}
 
 {% block title %}Resume Analyser{% endblock %}
@@ -24,7 +28,7 @@
 
 
                 </div>
-                <h3 style="text-align: center; width: 100vw;">Uploaded At: {{ resume.uploaded_at }}</h3>
+                <h3 style="text-align: center; width: 100%;">Uploaded At: {{ resume.uploaded_at }}</h3>
             
             {% include "components/ats_section.html" %}
 
