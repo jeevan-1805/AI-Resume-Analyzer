@@ -38,4 +38,9 @@ urlpatterns = [
         views.delete_account,
         name="delete_account"
     ),
+    path(
+        "download/<int:resume_id>/",
+        views.download_resume,
+        name="download_resume"
+    ),
 ]

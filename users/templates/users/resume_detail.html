@@ -30,17 +30,23 @@
                 </div>
                 <h3 style="text-align: center; width: 100%;">Uploaded At: {{ resume.uploaded_at }}</h3>
             
-            {% include "components/ats_section.html" %}
+                {% include "components/ats_section.html" %}
 
-            {% include "components/feedback_section.html" %}
+                {% include "components/feedback_section.html" %}
 
-            {% include "components/job_section.html" %}
+                {% include "components/job_section.html" %}
 
-            {% include "components/editor_section.html" %}
+                {% include "components/editor_section.html" %}
 
-            <button id="deleteResumeBtn">
-                Delete Resume
-            </button>
+                <div class="footerbtns">
+                    <button id="deleteResumeBtn">
+                        Delete Resume
+                    </button>
+
+                    <button id="downloadResumeBtn" type="button" onclick='window.open("{% url 'users:download_resume' resume.id %}", "_blank")' >
+                        View & Download Resume
+                    </button>
+                </div>
         </div>
     </div>
     <script>

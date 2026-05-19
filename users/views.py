@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -327,3 +327,22 @@ def delete_account(request):
         request,
         "users/delete_account.html"
     )
+
+def download_resume(request, resume_id):
+    resume = get_object_or_404(
+        Resume,
+        id=resume_id,
+        user=request.user
+    )
+
+    supabase=get_supabase_client()
+
+    file_path=resume.pdf_path
+    response=supabase.storage.from_("resume-pdfs").create_signed_url(
+        file_path,
+        60
+    )
+
+    download_url = response["signedURL"]
+
+    return HttpResponseRedirect(download_url)

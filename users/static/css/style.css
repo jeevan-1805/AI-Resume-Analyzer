@@ -129,7 +129,7 @@ a:hover {
     flex-direction: column;
     width: 100%;
     overflow-y: scroll;
-    overflow-x: scroll;
+    overflow-x: auto;
     align-items: center;
 }
 
@@ -154,19 +154,14 @@ a:hover {
 .card {
     display: flex;
     flex-direction: column;
-
     background: #ffffff;
     width: 100%;
     max-width: 600px;
-
     height: 80%;
-
-    padding: 2rem;
-    margin: 1rem auto;
-
+    padding: 3rem;
+    margin: 2rem auto;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.137);
     overflow: visible;
 }
 
@@ -223,7 +218,7 @@ button {
 }
 
 #customJob{
-    width: 40vw;
+    width: 35vw;
     border-top: none;
     border-left: none;
     border-right: none;
@@ -336,14 +331,19 @@ button {
 .job-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
     margin-top: 15px;
     margin-bottom: 10px;
 }
 
 .job-card {
+    font-size: 100%;
+    margin: 5%;
     color: #1e1e2f;
-    padding: 15px;
+    padding: 7%;
     border: 2px solid #ddd;
     border-radius: 10px;
     cursor: pointer;
@@ -380,6 +380,8 @@ button {
 }
 
 #deleteResumeBtn{
+    padding: 2%;
+    font-size: 100%;
     background-color: red;
 }
 
@@ -418,6 +420,12 @@ button {
 
     transform: translateX(4px);
 }
+
+.footerbtns{
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+}
 /* ========================================
    MOBILE + TABLET RESPONSIVE DESIGN
 ======================================== */
@@ -429,15 +437,10 @@ button {
     }
 
     .app-container {
-
         display: flex;
-
         flex-direction: row;
-
         width: 100vw;
-
         height: 100vh;
-
         overflow: hidden;
     }
 
@@ -474,18 +477,12 @@ button {
     ========================= */
 
     .main-content {
-
-        margin-left: 20%;
-
+        margin-left: 0;
         width: 72%;
-
         height: 100vh;
-
-        overflow-x: hidden;
-
-        overflow-y: auto;
-
+        overflow: hidden;
         padding: 1rem;
+        padding-right: 0;
     }
 
     /* =========================
@@ -493,19 +490,13 @@ button {
     ========================= */
 
     .rdsub1 {
-
-        margin-left: 28%;
-
-        width: 72%;
-
+        margin-left: 25px;
+        margin-right: 20px;
+        width: 100%;
         height: 100vh;
-
         overflow-y: auto;
-
         overflow-x: hidden;
-
-        padding: 1rem;
-
+        padding-top: 60px;
         align-items: center;
     }
 
@@ -514,16 +505,11 @@ button {
     ========================= */
 
     .card {
-
         width: 100%;
-
         max-width: 100%;
-
         height: auto;
-
         margin: 0 0 1rem 0;
-
-        padding: 1rem;
+        padding: 5%;
     }
 
     /* =========================
@@ -556,7 +542,7 @@ button {
 
     button {
 
-        width: 50%;
+        width: 60%;
     }
 
     .authBtn {
@@ -577,7 +563,7 @@ button {
     ========================= */
 
     .job-cards {
-
+        align-items: center;
         grid-template-columns: 1fr;
     }
 
@@ -605,6 +591,23 @@ button {
 
         max-width: 100%;
     }
+
+    #feedbackText {
+        flex: 1;
+        overflow-y: auto;
+        text-align: left;
+    }
+
+    #feedbackSection{
+        height: 70%;
+    }
+
+    #deleteResumeBtn, #downloadResumeBtn{
+        margin: 5%;
+        margin-bottom: 20%;
+        padding: 5%;
+    }
+    
 }
 
 /* ========================================
@@ -719,15 +722,4 @@ button {
         pointer-events: auto;
     }
 
-    /* Main content full width */
-
-    .main-content,
-    .rdsub1 {
-
-        margin-left: 0;
-
-        width: 100%;
-
-        padding-top: 60px;
-    }
 }
