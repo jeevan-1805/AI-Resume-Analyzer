@@ -46,11 +46,9 @@ const feedbackDiv =
 feedbackDiv.innerHTML = "";
 
 if (aiFeedback) {
+    feedbackDiv.innerHTML =
+        marked.parse(aiFeedback);
 
-    const formattedFeedback =
-        aiFeedback.replace(/\n/g, "<br>");
-
-    feedbackDiv.innerHTML = formattedFeedback;
 }
 
 

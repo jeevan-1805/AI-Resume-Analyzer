@@ -9,9 +9,16 @@
 
         <h2>My Resumes</h2>
 
-        <a href="{% url 'users:generate_resume' %}" class="new-resume-btn">
-            + Generate New Resume<br>(available in future)
-        </a>
+        <form method="get" id="searchForm">
+            <input type="text" name="search" placeholder="Search Resumes" id="searchInput">
+            <button type="submit" class="new-resume-btn" id="searchBtn">
+                {% if search_query %}
+                    Reset
+                {% else %}
+                    Search
+                {% endif %}
+            </button>
+        </form>
 
         <!-- Dynamic resume list injected by child templates -->
         <div class="resume-list">
@@ -68,3 +75,38 @@
         flex-direction: row;
     }
 </style>
+<script>
+
+    const searchQuery =
+        "{{ search_query }}";
+
+    const searchForm =
+        document.getElementById("searchForm");
+
+    const searchBtn =
+        document.getElementById("searchBtn");
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+
+    if (searchQuery) {
+
+        searchBtn.addEventListener("click", (event) => {
+
+            event.preventDefault();
+
+            window.location.href = window.location.pathname;
+        });
+    }
+
+
+    searchInput.addEventListener("input", () => {
+
+        if (searchInput.value.trim()) {
+
+            searchBtn.textContent = "Search";
+        }
+    });
+
+</script>

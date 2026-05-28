@@ -49,6 +49,8 @@
                 </div>
         </div>
     </div>
+{% endblock  %}
+{% block extra_js %}
     <script>
         const resumeId = {{ resume.id }};
         const csrfToken = "{{ csrf_token }}";
@@ -60,4 +62,4 @@
 
     <script src="{% static 'js/resume_detail.js' %}"></script>
     <script src="{% static 'js/app.js' %}" ></script>
-{% endblock  %}
+{% endblock %}

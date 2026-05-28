@@ -19,8 +19,7 @@ from django.views.decorators.http import require_POST
 def home(request):
     return render(request, "users/home.html")
 
-def generate_resume(request):
-    return HttpResponse("Generate Resume Page")
+
 
 def register(request):
     if request.method == "POST":

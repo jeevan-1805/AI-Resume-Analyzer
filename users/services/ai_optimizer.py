@@ -22,7 +22,11 @@ client = Groq(
 def generate_resume_feedback(resume_text):
 
     prompt = f"""
-    Analyze this resume and give:
+    Analyse the following resume text and present the response in professional Markdown format:
+        Use `#` for headings
+        Use `**bold**` for emphasis
+        Use `-` for bullet points
+        Use blockquotes `>` or fenced code blocks for boxed sections and give:
 
     1. ATS improvement suggestions
     2. Missing skills
