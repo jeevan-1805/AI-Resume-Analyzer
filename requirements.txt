@@ -18,17 +18,8 @@ Django==5.2.14
 django-allauth==65.18.0
 frozenlist==1.8.0
 fsspec==2026.4.0
-google-ai-generativelanguage==0.6.15
-google-api-core==2.30.3
-google-api-python-client==2.196.0
-google-auth==2.52.0
-google-auth-httplib2==0.4.0
-google-generativeai==0.8.6
-googleapis-common-protos==1.75.0
 gotrue==2.12.4
 groq==1.2.0
-grpcio==1.80.0
-grpcio-status==1.71.2
 gunicorn==26.0.0
 h11==0.16.0
 h2==4.3.0
@@ -56,7 +47,6 @@ pycparser==3.0
 pydantic==2.13.4
 pydantic_core==2.46.4
 Pygments==2.20.0
-pyiceberg==0.11.1
 PyJWT==2.12.1
 pyparsing==3.3.2
 PyPDF2==3.0.1
