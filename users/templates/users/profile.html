@@ -1,0 +1,770 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+
+    
+<div class="profile-page">
+
+    <!-- LEFT -->
+    <div class="profile-left">
+
+        <form
+            method="post"
+            enctype="multipart/form-data"
+        >
+
+            {% csrf_token %}
+
+            <label
+                for="profileImageInput"
+                class="profile-image-box"
+                id="profileImageBox"
+            >
+
+                {% if profile.profile_image %}
+
+                    <img
+                        src="{{ profile.profile_image.url }}"
+                        class="profile-image-preview"
+                    >
+
+                {% else %}
+
+                    <span id="profileUploadText">
+                        Upload Profile Image
+                    </span>
+
+                {% endif %}
+
+            </label>
+
+            <input
+                type="file"
+                id="profileImageInput"
+                name="profile_image"
+                hidden
+            >
+
+    </div>
+
+
+    <!-- RIGHT -->
+    <div class="profile-right">
+
+        <h2>
+            {{ request.user.username }}
+        </h2>
+
+        <p>
+            Username
+        </p>
+        <input
+            type="text"
+            name="display_name"
+            placeholder="Display Name"
+            value="{{ profile.display_name }}"
+        >
+        <div class="profile-stats">
+
+            <div class="profile-stat">
+
+                <strong>
+
+                    {{ resume_count }}
+
+                </strong>
+
+                <span>
+
+                    Resumes
+
+                </span>
+
+            </div>
+
+            <div class="profile-stat">
+
+                <strong>
+
+                    {{ public_post_count }}
+
+                </strong>
+
+                <span>
+
+                    Public Posts
+
+                </span>
+
+            </div>
+            <div class="profile-stat">
+
+                <strong>
+
+                    {{ comment_count }}
+
+                </strong>
+
+                <span>
+
+                    Comments
+
+                </span>
+
+            </div>
+
+        </div>
+
+        
+
+        <div class="google-account-section">
+            <div class="googlesub">
+
+            {% if google_account_email %}
+                
+
+                <div class="google-connected">
+
+                    <strong>
+                        Connected Google Account
+                    </strong>
+
+                    <p>
+                        {{ google_account_email }}
+                    </p>
+
+                    <a
+                        href="{% url 'users:disconnect_google_account' %}"
+                        class="disconnect-google-btn"
+                        onclick="
+                            return confirm(
+                                'Disconnect Google account?\n\nYou will no longer be able to sign in using Google.'
+                            );
+                        "
+                    >
+                        Disconnect Google Account
+                    </a>
+
+                </div>
+
+            {% else %}
+            
+
+                <div class="google-not-connected">
+
+                    <strong>
+                        No Google Account Connected:
+                    </strong>
+
+                    <a
+                        href="/accounts/google/login/?process=connect&next=/profile/"
+                        class="connect-google-btn"
+                    >
+
+                        Connect Google Account
+
+                    </a>
+
+                </div>
+
+            {% endif %}
+            <div id="profilebtns" style="display: flex; flex-direction: column;">
+                <button type="submit" id="saveprofile" class="profile-btn">
+                    Save Profile
+                </button>
+                </form>
+                <form action="{% url 'logout' %}" method="post" id="authForm">
+                    {% csrf_token %}
+                    <button type="submit" class="link-btn profile-btn" id="logout">Log out</button>
+                </form>
+                <button 
+                    type="button" 
+                    class="link-btn profile-btn" 
+                    onclick="
+                        if(
+                            confirm(
+                                'Delete your account?\n\nYou will be sent to comfirmation process.'
+                            )
+                        ){
+                            location.href='{% url 'users:delete_account' %}';
+                        }
+                    "
+                    id="dltbtn"
+                    style="background-color: red;"
+                >
+                    Delete Account</button>
+                
+            </div>
+            </div>
+
+            {% if not has_password %}
+
+                <div class="password-warning">
+
+                    <p>
+
+                        No password set.
+
+                    </p>
+
+                    <a
+                        href="{% url 'users:set_password' %}"
+                        class="profile-btn link-btn"
+                    >
+
+                        Set Password
+
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+        
+        
+
+    </div>
+
+    
+    
+</div>
+
+<hr>
+
+<div class="profile-actions">
+
+    <a
+        href="{% url 'users:other_users' %}"
+        class="profile-action-btn"
+    >
+        Other Users
+    </a>
+
+    <button
+        id="openPostModal"
+        class="profile-action-btn"
+        type="button"
+    >
+        Post
+    </button>
+
+    <a
+        href="{% url 'users:chat_list' %}"
+        class="profile-action-btn"
+    >
+        Chats
+        {% if total_unread > 0 %}
+            ({{ total_unread }})
+        {% endif %}
+    </a>
+
+</div>
+
+<hr>
+
+<h2 class="public-room-title">
+
+    Public Room
+
+</h2>
+
+<div class="public-room-feed">
+
+    {% for post in public_posts %}
+
+        <div id="post-{{ post.resume.id }}" class="public-post-card">
+
+            <div class="post-header">
+
+                {% if post.user.profile.profile_image %}
+
+                    <img
+                        src="
+                        {{ post.user.profile.profile_image.url }}
+                        "
+                        class="post-profile-image"
+                    >
+
+                {% endif %}
+
+                <div>
+
+                    <h3>
+
+                        {% if post.user.profile.display_name %}
+
+                            {{ post.user.profile.display_name }}
+
+                        {% else %}
+
+                            {{ post.user.username }}
+
+                        {% endif %}
+                        {% if post.user.id == 1 %}
+                        <br>
+                        <span class="super-user-badge">
+
+                            ★ Super User 
+
+                        </span>
+                        {% endif %}
+
+                    </h3>
+
+                    <small>
+
+                        @{{ post.user.username }}
+
+                        <span class="dot">•</span>
+
+                        {{ post.created_at|naturaltime }}
+
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <h3 class="resume-title">
+
+                {{ post.resume.title }}
+
+            </h3>
+
+            <div class="ats-box">
+
+                ATS Score:
+                {{ post.resume.ats_score }}
+
+            </div>
+
+            <div class="strength-box">
+
+                <strong>
+                    Strength:
+                </strong>
+
+                {{ post.resume.strength_score }}
+
+            </div>
+            <div class="post-actions">
+                <a
+                    href="{% url 'users:view_public_resume' post.resume.id %}"
+                    target="_blank"
+                    class="link-btn"
+                >
+
+                    View Resume
+
+                </a>
+
+                <button
+                    type="button"
+                    class="comment-btn"
+                    data-resume-id="{{ post.resume.id }}"
+                    onclick="openCommentModal(
+                        '{{ post.id }}',
+                        '{{ post.resume.id }}',
+                        '{{ post.user.id }}'
+                        )
+                    "
+                >
+
+                    💬
+
+                    {{ post.resume.comments.count }}
+
+                </button>
+
+            </div>
+            <script
+                type="application/json"
+                id="comments-{{ post.id }}"
+            >
+
+            [
+            {% for comment in post.resume.comments.all %}
+
+            {
+                "user":"{{ comment.user.username|escapejs }}",
+                "content":"{{ comment.content|escapejs }}",
+                "time":"{{ comment.created_at|naturaltime }}"
+            }
+
+            {% if not forloop.last %},{% endif %}
+
+            {% endfor %}
+            ]
+
+            </script>
+
+        </div>
+
+    {% empty %}
+
+        <p>
+
+            No public posts yet.
+
+        </p>
+
+    {% endfor %}
+
+    
+
+</div>
+
+<div
+    id="postModal"
+    class="modal"
+>
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>
+                Manage Public Resumes
+            </h2>
+
+            <button
+                id="closePostModal"
+                class="close-btn"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="public-post-list">
+
+            {% for resume in user_resumes %}
+
+                <div class="post-resume-item">
+
+                    <div class="post-text">
+
+                        <strong>
+                            {{ resume.title }}
+                        </strong>
+
+                        <br>
+
+                        ATS:
+                        {{ resume.ats_score }}
+
+                        |
+
+                        Strength:
+                        {{ resume.strength_score }}
+
+                    </div>
+
+                    {% if resume.is_posted %}
+
+                        <a
+                            href="{% url 'users:remove_public_post' resume.id %}"
+                            class="remove-btn"
+                        >
+                            Remove from Public
+                        </a>
+
+                    {% else %}
+
+                        <a
+                            href="{% url 'users:post_resume' resume.id %}"
+                            class="post-btn"
+                        >
+                            Post to Public
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+<div
+    id="commentModal"
+    class="comment-modal"
+>
+
+    <div class="comment-modal-content">
+
+        <button
+            type="button"
+            class="close-modal"
+            onclick="closeCommentModal()"
+        >
+            X
+        </button>
+
+        <h3>
+
+            Comments
+
+        </h3>
+
+        <div id="commentsContainer">
+
+        </div>
+
+        <form
+            id="commentForm"
+            method="post"
+        >
+
+            {% csrf_token %}
+
+            <textarea
+                name="content"
+                placeholder="Share your thoughts on this resume..."
+                required
+            ></textarea>
+
+            <div class="comment-actions">
+
+                <button
+                    type="submit"
+                    class="link-btn"
+                >
+
+                    Post Comment
+
+                </button>
+
+                <a
+                    id="privateCommentLink"
+                    href="#"
+                    class="link-btn"
+                >
+
+                    Comment Privately
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<style>
+    .main-content{
+        overflow-y: auto;
+    }
+    #openPostModal{
+        margin: auto;
+        font-size: 15px;
+        padding: 10px;
+    }
+    #openPostModal:hover{
+        box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.3);
+    }
+    .profile-actions{
+        margin: 0 30px;
+        padding: 10px 0px;
+        display: flex;
+        flex-direction: row;
+    }   
+</style>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+
+const profileInput =
+    document.getElementById(
+        "profileImageInput"
+    );
+
+const profileUploadText =
+    document.getElementById(
+        "profileUploadText"
+    );
+
+profileInput.addEventListener(
+    "change",
+    () => {
+
+        if (
+            profileInput.files.length > 0
+        ) {
+
+            profileUploadText.textContent =
+                profileInput.files[0].name;
+        }
+    }
+);
+
+function openCommentModal(postId, resumeId, ownerId){
+
+    const modal =
+        document.getElementById(
+            "commentModal"
+        );
+
+    const container =
+        document.getElementById(
+            "commentsContainer"
+        );
+
+    const commentsData =
+        JSON.parse(
+            document
+                .getElementById(
+                    `comments-${postId}`
+                )
+                .textContent
+        );
+
+    container.innerHTML = "";
+
+    if(commentsData.length === 0){
+
+        container.innerHTML = `
+
+            <p class="no-comments">
+
+                No comments yet, Be the First commenter.
+
+            </p>
+
+        `;
+
+    } else {
+
+        commentsData.forEach(comment => {
+
+            container.innerHTML += `
+
+                <div class="comment-item">
+
+                    <strong>
+
+                        ${comment.user}
+                        
+
+                    </strong>
+
+                    <small>
+
+                        ${comment.time}
+
+                    </small>
+
+                    <p>
+
+                        ${comment.content}
+
+                    </p>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+    document.getElementById("commentForm").action =`/comment/${resumeId}/`;
+    document.getElementById("privateCommentLink").href =`/chat/${ownerId}/?resume=${resumeId}`;
+
+    modal.style.display = "flex";
+
+}
+
+function closeCommentModal(){
+
+    document.getElementById(
+        "commentModal"
+    ).style.display = "none";
+
+}
+
+
+window.addEventListener(
+    "load",
+    () => {
+
+        const hash =
+            window.location.hash;
+
+        if(!hash.startsWith("#post-")){
+
+            return;
+
+        }
+
+        const cleanHash =
+            hash.replace(
+                /\/$/,
+                ""
+            );
+
+        const postCard =
+            document.querySelector(
+               cleanHash
+            );
+        validURL = ("/profile/"+cleanHash);
+        if(postCard){
+            window.location.replace(validURL);
+
+
+            postCard.classList.add(
+                "post-highlight"
+            );
+
+        }
+
+    }
+);
+
+window.addEventListener(
+    "load",
+    () => {
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const resumeId =
+            params.get(
+                "comment"
+            );
+
+        if(!resumeId){
+
+            return;
+
+        }
+
+        const button =
+            document.querySelector(
+                `[data-resume-id="${resumeId}"]`
+            );
+
+        if(button){
+
+            button.click();
+
+        }
+
+    }
+);
+</script>
+<script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}

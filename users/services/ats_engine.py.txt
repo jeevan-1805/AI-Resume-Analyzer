@@ -21,138 +21,7 @@ GENERIC_KEYWORDS = [
     "analysis", "communication", "leadership"
 ]
 
-SUMMARY_HEADINGS = [
 
-    "summary",
-
-    "professional summary",
-
-    "executive summary",
-
-    "career objective",
-
-    "objective",
-
-    "profile",
-
-    "about",
-
-    "resume objective",
-
-    "resume objectives"
-]
-
-TECHNICAL_SKILLS = [
-
-    # Programming
-
-    "python",
-    "java",
-    "c",
-    "c++",
-    "c#",
-    "javascript",
-    "typescript",
-
-    # Web
-
-    "django",
-    "flask",
-    "fastapi",
-    "html",
-    "css",
-    "bootstrap",
-    "react",
-    "nodejs",
-
-    # Database
-
-    "sql",
-    "mysql",
-    "postgresql",
-    "sqlite",
-    "mongodb",
-
-    # Tools
-
-    "git",
-    "github",
-    "docker",
-    "linux",
-
-    # Cloud
-
-    "aws",
-    "azure",
-    "gcp",
-
-    # Data
-
-    "pandas",
-    "numpy",
-    "matplotlib",
-    "power bi",
-    "excel",
-
-    # AI / ML
-
-    "machine learning",
-    "deep learning",
-    "tensorflow",
-    "pytorch",
-    "scikit-learn",
-
-]
-
-PROJECT_KEYWORDS = [
-
-    "project",
-
-    "developed",
-
-    "built",
-
-    "created",
-
-    "implemented",
-
-    "designed",
-
-    "web application",
-
-    "application",
-
-    "system",
-
-    "api",
-
-    "dashboard",
-
-]
-
-ACHIEVEMENT_KEYWORDS = [
-
-    "improved",
-
-    "increased",
-
-    "reduced",
-
-    "optimized",
-
-    "achieved",
-
-    "boosted",
-
-    "enhanced",
-
-    "saved",
-
-    "grew",
-
-    "delivered"
-
-]
 # ===============================
 # PDF TEXT EXTRACTION
 # ===============================
@@ -178,12 +47,12 @@ def resume_length_score(text):
     wc = len(text.split())
 
     if 300 <= wc <= 800:
-        return 10
+        return 15
 
     elif 200 <= wc < 300 or 800 < wc <= 1000:
-        return 7
+        return 10
 
-    return 3
+    return 5
 
 
 def section_completeness_score(text):
@@ -193,7 +62,7 @@ def section_completeness_score(text):
         if s in text.lower()
     )
 
-    return (found / len(REQUIRED_SECTIONS)) * 15
+    return (found / len(REQUIRED_SECTIONS)) * 25
 
 
 def keyword_density_score(text):
@@ -234,286 +103,61 @@ def readability_score(text):
     avg = len(words) / max(len(sentences), 1)
 
     if avg <= 20:
-        return 10
+        return 20
 
     elif avg <= 30:
-        return 7
+        return 14
 
-    return 4
+    return 8
 
-def extract_summary(text):
 
-    lines = text.splitlines()
-
-    for i, line in enumerate(lines):
-
-        cleaned = line.strip().lower()
-
-        if cleaned in SUMMARY_HEADINGS:
-
-            summary_lines = []
-
-            for next_line in lines[i + 1:]:
-
-                next_line = next_line.strip()
-
-                if not next_line:
-
-                    break
-
-                summary_lines.append(
-                    next_line
-                )
-
-            return " ".join(
-                summary_lines
-            )
-
-    return ""
-
-def summary_quality_score(text):
-
-    summary = extract_summary(
-        text
-    )
-
-    if not summary:
-
-        return 0
-
-    score = 5
-
-    summary_words = set(
-
-        re.findall(
-            r"\b[a-zA-Z]+\b",
-            summary.lower()
-        )
-
-    )
-
-    resume_words = set(
-
-        re.findall(
-            r"\b[a-zA-Z]+\b",
-            text.lower()
-        )
-
-    )
-
-    overlap = len(
-
-        summary_words.intersection(
-            resume_words
-        )
-
-    )
-
-    if overlap >= 15:
-
-        score += 10
-
-    elif overlap >= 8:
-
-        score += 6
-
-    elif overlap >= 4:
-
-        score += 3
-
-    return min(score, 15)
-
-def skills_coverage_score(text):
-
-    text = text.lower()
-
-    found = sum(
-
-        1
-
-        for skill in TECHNICAL_SKILLS
-
-        if skill in text
-
-    )
-
-    coverage = (
-
-        found
-        / len(TECHNICAL_SKILLS)
-
-    )
-
-    return round(
-        coverage * 20,
-        1
-    )
-
-def project_quality_score(text):
-
-    text = text.lower()
-
-    project_hits = sum(
-
-        text.count(keyword)
-
-        for keyword in PROJECT_KEYWORDS
-
-    )
-
-    if project_hits >= 10:
-
-        return 15
-
-    elif project_hits >= 6:
-
-        return 10
-
-    elif project_hits >= 3:
-
-        return 5
-
-    return 0
-
-def achievement_impact_score(text):
-
-    text = text.lower()
-
-    keyword_hits = sum(
-
-        text.count(keyword)
-
-        for keyword in ACHIEVEMENT_KEYWORDS
-
-    )
-
-    percentage_hits = len(
-
-        re.findall(
-            r"\d+\s*%",
-            text
-        )
-
-    )
-
-    number_hits = len(
-
-        re.findall(
-            r"\d+\+?",
-            text
-        )
-
-    )
-
-    total = (
-        keyword_hits
-        + percentage_hits
-        + number_hits
-    )
-
-    if total >= 12:
-
-        return 10
-
-    elif total >= 8:
-
-        return 7
-
-    elif total >= 4:
-
-        return 4
-
-    elif total >= 2:
-
-        return 2
-
-    return 0
 # ===============================
 # RESUME STRENGTH FUNCTIONS
 # ===============================
 
 def skills_strength_score(text):
 
-    text = text.lower()
+    skills = re.findall(r"\b[A-Za-z+#.]{2,}\b", text)
 
-    found_skills = set()
+    unique_skills = set(skills)
 
-    for skill in TECHNICAL_SKILLS:
+    count = len(unique_skills)
 
-        if skill in text:
-
-            found_skills.add(
-                skill
-            )
-
-    count = len(
-        found_skills
-    )
-
-    if count >= 15:
-
+    if count >= 20:
         return 3.0
 
-    elif count >= 10:
-
-        return 2.5
-
-    elif count >= 6:
-
+    elif count >= 12:
         return 2.0
 
-    elif count >= 3:
-
+    elif count >= 6:
         return 1.0
 
     return 0.5
+
 
 def experience_strength_score(text):
 
-    text = text.lower()
-
-    experience_hits = len(
-
-        re.findall(
-
-            r"(experience|internship|worked|employment)",
-
-            text
-
-        )
-
+    years = re.findall(
+        r"\b\d+\+?\s*(years|year|months|month)\b",
+        text.lower()
     )
 
-    project_hits = sum(
+    keywords = [
+        "experience",
+        "worked",
+        "employment",
+        "internship"
+    ]
 
-        text.count(keyword)
+    if years or any(k in text.lower() for k in keywords):
 
-        for keyword in PROJECT_KEYWORDS
-
-    )
-
-    total = (
-        experience_hits
-        + project_hits
-    )
-
-    if total >= 12:
-
-        return 3.0
-
-    elif total >= 8:
-
-        return 2.5
-
-    elif total >= 5:
+        if len(years) >= 2:
+            return 3.0
 
         return 2.0
 
-    elif total >= 2:
+    return 1.0
 
-        return 1.0
-
-    return 0.5
 
 def certification_strength_score(text):
 
@@ -664,18 +308,11 @@ def analyze_resume_text(text):
 
         + section_completeness_score(text)
 
-        + skills_coverage_score(text)
+        + keyword_density_score(text)
 
         + formatting_score(text)
 
         + readability_score(text)
-
-        + summary_quality_score(text)
-
-        + project_quality_score(text)
-
-        + achievement_impact_score(text)
-
     )
 
     strength_score = round(

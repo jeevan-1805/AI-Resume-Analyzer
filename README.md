@@ -1,6 +1,6 @@
 # AI Resume Analyser
 
-An ATS-focused resume analysis web application built with Django, Supabase, and AI-powered resume feedback. Users can upload a PDF resume, get ATS score insights, strength analysis, job-role recommendations, and executive summary optimization.
+An ATS-focused modern resume analysis web application and professional networking platform built with Django, Supabase, and AI-powered resume feedback. Users can upload a PDF resume, get ATS score insights, strength analysis, job-role recommendations, executive summary optimization and share resumes with other users.
 
 ## Live Demo
 
@@ -8,31 +8,196 @@ Render deployment: https://ai-resume-analyser-y5cv.onrender.com/
 
 > **Important:** The first load on Render can take **40–60 seconds** because the free web service may need time to wake up and load Python packages. Please wait a little before refreshing.
 
-## Features
+## The platform helps users:
 
-- Resume PDF upload
-- ATS scoring
-- Resume strength scoring
-- AI-generated resume feedback
-- Recommended job roles
-- Executive summary optimization
-- Resume detail page for each uploaded file
-- Editable resume title
-- Resume deletion
-- Account deletion
-- Supabase file storage
-- Supabase PostgreSQL database
-- Responsive UI for mobile, tablet, and desktop
+- Analyze resumes using ATS-based scoring
+- Receive AI-generated resume feedback
+- Generate professional executive summaries
+- Share resumes publicly
+- Connect with other users
+- Discuss resumes through private messaging
+- Build a professional online presence
+
+## Core Features
+
+### Resume Analysis
+
+- ATS Score Calculation
+- Resume Strength Score
+- ATS-Friendly Resume Evaluation
+- Resume Parsing
+- Resume Storage
+- Resume Management
+
+### AI-Powered Features
+
+- AI Resume Feedback
+- Missing Skills Detection
+- Resume Strength Analysis
+- Resume Weakness Analysis
+- Keyword Suggestions
+- Executive Summary Generator
+
+### Public Resume Community
+
+- Public Resume Feed
+- Resume Sharing
+- Resume Comments
+- Resume Discussion
+- Resume Discovery
+
+### Professional Networking
+
+- User Profiles
+- Display Names
+- Profile Pictures
+- Resume Sharing
+- Private Messaging
+
+### Realtime Communication
+
+- User Profiles
+- Display Names
+- Profile Pictures
+- Resume Sharing
+- Private Messaging
+
+### Authentication
+
+
+- Username / Password Authentication
+- Google Authentication
+- Account Linking
+- Secure Password Management
+
+### User Experience
+
+- Responsive Mobile Design
+- Notification System
+- Public Feed Navigation
+- Resume Commenting System
+- Improved ATS Scoring Engine
 
 ## Tech Stack
 
-- **Backend:** Django
+- **Backend:** Python, Django
 - **Frontend:** HTML, CSS, JavaScript
 - **Database:** Supabase PostgreSQL
 - **Storage:** Supabase Storage
 - **AI / NLP:** Groq API
 - **Deployment:** Render
-- **PDF Processing:** PyPDF2
+- **Authentication:** Django Allauth
+
+## Version History
+
+### Version 1
+
+Version 1 introduced the foundation of the project:
+
+#### Features:
+
+- Resume Upload
+- Resume Storage
+- Basic ATS Scoring
+- AI Resume Feedback
+- Executive Summary Generator
+- User Authentication
+- Google Authentication
+- Resume Management Dashboard
+
+Version 1 successfully proved the concept of AI-assisted resume analysis.
+
+***
+
+### Version 1: Remastered
+
+Version 1: Remastered transforms the project into a professional resume community platform.
+
+#### New Features
+
+- Public Resume Feed
+- Resume Comments
+- Realtime Chat System
+- Resume Sharing Through Chat
+- Notification Center
+- Live Notification Badge Updates
+- Mobile Responsive UI
+- Public Resume Discovery
+- Resume Discussion System
+- Improved ATS Engine
+- Summary Detection Scoring
+- Technical Skill Detection
+- Project Detection
+- Achievement Detection
+- Improved Resume Strength Calculation
+- Improved Account Security
+- Improved Google Account Management
+
+### Planned Enhancements For Version 1: Remastered
+
+- ATS Breakdown Dashboard
+- Role-Specific ATS Analysis
+- Job description vs Resume match analysis
+
+## Long-Term Future Vision (Version 2)
+
+Version 2 expands the platform from resume analysis into a complete professional networking and hiring ecosystem.
+
+### Recruiter Platform
+
+- Recruiter Login
+- Recruiter Profiles
+- Job Vacancy Publishing
+- Candidate Discovery
+
+### Professional Networking
+
+- Follow System
+- Friends System
+- Friend Requests
+- Professional Connections
+
+### Portfolio Expansion
+
+- Project Showcase Cards
+- GitHub Integration
+- Project Media Uploads
+- Visual Project Galleries
+
+
+### Professional Identity
+
+- LinkedIn Profile Integration
+- Enhanced User Profiles
+- Professional Portfolio Pages
+
+### Create Resume 
+
+- A section for creating ATS friendly resumes
+- Will come with ATS-friendly resume templates
+
+
+## Intelligent Hiring System
+
+### TalentMatch AI
+
+TalentMatch AI automatically connects recruiters and candidates.
+
+#### For Recruiters
+
+- Post Job Vacancies
+- Upload Job Descriptions
+- Automatically Discover Matching Resumes
+- Receive Ranked Candidate Suggestions
+
+#### For Candidates
+
+- Receive Relevant Job Opportunities
+- Match Based On Skills
+- Match Based On Executive Summary
+- Match Based On Public Resume Content
+
+TalentMatch AI creates a two-way recommendation engine where recruiters discover qualified candidates and candidates discover relevant opportunities.
 
 ## How to Run Locally
 
@@ -89,16 +254,15 @@ Render deployment: https://ai-resume-analyser-y5cv.onrender.com/
 - `static/` — CSS and JavaScript files
 - `templates/` — base templates and reusable components
 
-## Future Improvements
-
-- Google authentication for easier account creation
-- Create Resume section with ATS-friendly resume templates
-- Advanced ATS scoring with NLP
-- Profile pages
-- Cloud resume storage and download option
-
 ## Notes
 
 - The app is optimized for PDF resume uploads.
 - If the Render free instance is sleeping, the first request may take a while.
+
+***
+# Author
+
+## Built by Jeevan Y
+
+<p align="center">Focused on Python, Django, Artificial Intelligence, Machine Learning, and Full Stack Development.</p>
 

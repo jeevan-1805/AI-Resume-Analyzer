@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="chat-list-page">
+
+    <h1>
+        Chats
+    </h1>
+
+    <form method="get" id="usersearch">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search users..."
+        >
+
+        <button type="submit">
+
+            Search
+
+        </button>
+
+    </form>
+    <div class="chat-list-scroll">
+
+    {% for chat in chat_cards %}
+        
+
+        <a
+            href="{% url 'users:chat' chat.user.id %}"
+            class="chat-card"
+        >
+            
+
+            <div class="chat-user-info2">
+
+                {% if chat.user.profile.profile_image %}
+
+                    <img
+                        src="{{ chat.user.profile.profile_image.url }}"
+                        class="chat-avatar"
+                    >
+
+                {% else %}
+
+                    <div class="chat-avatar-placeholder">
+
+                        {{ chat.user.username|first|upper }}
+
+                    </div>
+
+                {% endif %}
+
+                <div>
+
+
+                    <div class="chat-username">
+
+                        @{{ chat.user.username }}
+                        {% if chat.user.id == 1 %}
+                        <span class="super-user-badge">
+
+                            ★ Super User 
+
+                        </span>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+            
+            <div class="chat-info">
+                <div class="chat-display-name">
+                    {% if chat.user.profile.display_name %}
+                       <span>{{ chat.user.profile.display_name }}</span>
+                    {% else %}
+                        <p  class="namefallback">Name Not Available</p>
+                    {% endif %}
+                    {% if chat.unread_count > 0 %}
+
+                    <div class="unread-badge">
+                        {{ chat.unread_count }}
+                    </div> 
+
+                    {% endif %}
+                </div>
+                <div style="margin-top: 2%;">
+                    <div style="display: flex; flex-direction: row;">
+                        <div class="chat-preview">
+                            {% if chat.last_message.message %}
+                                {{ chat.last_message.message|truncatechars:50 }}
+                            {% else %}
+                                <span style="font-style: italic; color: rgba(150, 61, 233, 0.623);">Attachment</span>
+                            {% endif %}
+                            
+
+                        </div>
+                        <div
+                            onclick='location.href="{% url 'users:delete_chat' chat.user.id %}"'
+                            class="delete-chat-btn"
+                        >
+                            Delete Chat
+                        </div>
+                    </div>
+                    
+
+                    <div class="chat-date">
+
+                        {{ chat.last_message.created_at|naturaltime }}
+
+                    </div>
+                </div>
+
+                
+            </div>
+
+        </a>
+
+    {% empty %}
+
+        <p>
+            No chats yet.
+        </p>
+
+    {% endfor %}
+    </div>
+
+</div>
+<style>
+    .chat-card{
+        
+    }
+    h1{
+        font-size: 40px;
+        margin-left: 10%;
+        margin-top: 4%;
+        margin-bottom: 0px;
+    }
+    
+    .chat-username{
+        text-align: center;
+    }
+</style>
+
+{% endblock %}

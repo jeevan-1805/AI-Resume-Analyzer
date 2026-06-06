@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="app-container">
+
+    <div class="main-content div2">
+
+        <div class="public-profile-header">
+
+            {% if other_user.profile.profile_image %}
+
+                <img
+                    src="
+                    {{ other_user.profile.profile_image.url }}
+                    "
+                    class="public-profile-image"
+                >
+
+            {% endif %}
+
+            <div>
+
+                <h1 id="usrname">
+
+                    {% if other_user.profile.display_name %}
+
+                        {{ other_user.profile.display_name }}
+
+                    {% else %}
+
+                        {{ other_user.username }}
+
+                    {% endif %}
+
+                </h1>
+
+                <p>
+
+                    @{{ other_user.username }}
+                    {% if other_user.id == 1 %}
+                    <span class="super-user-badge">
+
+                        ★ Super User <br>
+                        <span style="font-size: 11px;">Creator of this Application</span>
+
+                    </span>
+                    {% endif %}
+
+                </p>
+
+            </div>
+            
+            <a id="chatbtn" href="{% url 'users:chat' other_user.id %}"> Chat </a>
+        </div>
+        
+
+        
+        <hr>
+
+        <h2 style="margin-left: 20px ; margin-top: 20px;">
+
+            Public Resumes
+
+        </h2>
+
+        <div class="public-room-feed">
+
+            {% for post in public_posts %}
+
+                <div class="public-post-card">
+
+                    <h3 class="resume-title">
+
+                        {{ post.resume.title }}
+
+                    </h3>
+
+                    <div class="ats-box">
+
+                        ATS:
+                        {{ post.resume.ats_score }}
+
+                    </div>
+
+                    <div class="strength-box">
+
+                        Strength: 
+                        {{ post.resume.strength_score }}
+
+                    </div>
+
+                    <a
+                        href="
+                        {% url 'users:view_public_resume' post.resume.id %}
+                        "
+                        target="_blank"
+                        class="link-btn"
+                    >
+
+                        View Resume
+
+                    </a>
+                    <a
+                        href="{% url 'users:chat' post.user.id %}?resume={{ post.resume.id }}"
+                        class="link-btn"
+                    >
+
+                        Comment
+
+                    </a>
+
+                </div>
+
+            {% empty %}
+
+                <p>
+
+                    No public resumes yet.
+
+                </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}

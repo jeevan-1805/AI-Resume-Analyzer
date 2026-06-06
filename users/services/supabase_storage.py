@@ -12,13 +12,6 @@ def get_supabase_client():
     SUPABASE_URL = os.getenv("SUPABASE_URL")
     SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
-    print("SUPABASE URL:", SUPABASE_URL)
-
-    print("SUPABASE KEY START:",
-        SUPABASE_KEY[:20])
-
-    print("SUPABASE KEY LENGTH:",
-        len(SUPABASE_KEY))
 
     return create_client(
         SUPABASE_URL,

@@ -46,7 +46,34 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'users',
+
+    "django.contrib.sites",
+
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+
+    "allauth.socialaccount.providers.google",
+
+    'django.contrib.humanize',
 ]
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+
+    "django.contrib.auth.backends.ModelBackend",
+
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*"]
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,6 +82,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -72,6 +100,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'users.context_processors.sidebar_resumes',
+                "users.context_processors.unread_messages_count",
             ],
         },
     },
@@ -139,7 +168,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'users/static',   # your development static folder
 ]
 
+MEDIA_URL = "/media/"
 
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

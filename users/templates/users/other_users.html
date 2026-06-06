@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="app-container">
+
+
+    <div class="main-content">
+
+        <h1 id="otherUsers">
+            Other Users
+        </h1>
+
+        <form method="get" id="usersearch">
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search username..."
+                value="{{ search_query }}"
+            >
+
+            <button type="submit">
+
+                Search
+
+            </button>
+
+        </form>
+
+        <div class="users-grid">
+
+            {% for other_user in users_list %}
+
+                <div class="user-card" onclick='location.href="{% url 'users:view_user_profile' other_user.id %}"'>
+
+                    {% if other_user.profile.profile_image %}
+
+                        <img
+                            src="
+                            {{ other_user.profile.profile_image.url }}
+                            "
+                            class="user-card-image"
+                        >
+                    
+                    {% else %}
+                        <div class="user-image-placeholder">
+
+                            {{ other_user.username|first|upper }}
+
+                        </div>
+
+                    {% endif %}
+                    <div class="usr-infodiv">
+                        <h3>
+
+                            {% if other_user.profile.display_name %}
+
+                                {{ other_user.profile.display_name }}
+
+                            {% else %}
+
+                                {{ other_user.username }}
+
+                            {% endif %}
+                        </h3>
+
+                        <p>
+
+                            @{{ other_user.username }}
+
+                        </p>
+                        <p>
+                            {% if other_user.id == 1 %}
+                            <span class="super-user-badge">
+
+                                ★ Super User 
+
+                            </span>
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div class="user-card-buttons">
+
+                        <a href="{% url 'users:chat' other_user.id %}">
+
+                            Chat
+
+                        </a>
+
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <p>
+
+                    No users found.
+
+                </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

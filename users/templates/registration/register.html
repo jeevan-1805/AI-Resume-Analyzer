@@ -4,24 +4,52 @@
 </head>
 {% load static %}
 
-{% block content %}
+{% block auth_content %}
 <link rel="stylesheet" href="{% static "css/register.css" %}">
 <body>
 
 <div class="container" style=" 
     text-align: left;
     ">
+    
         <h2 style="text-align: center;">Create Account</h2>
+    <div id="sub1">
+        <div id="sub2">
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
+        </div>
+        <div id="sub3">
+        <div class="google-login-section">
             <button type="submit">Register</button>
         </form>
+        
+
+            <div class="divider">
+
+                <span>OR</span>
+
+            </div>
+
+            <a
+                href="/accounts/google/login/"
+                class="google-login-btn"
+            >
+
+                Continue with Google
+
+            </a>
+
+        </div>
+        
         <p style="text-align: center;">Deja vu? Try Login.</p>
         <button type="button" onclick="location.href='{% url 'login' %}'">Log in</button>
         {% include 'components/loading.html' %}
+        </div>
+    </div>
 </div>
 <style>
+    
     body {
         font-family: Arial, sans-serif;
         background: aqua;          /* soft gray background */
@@ -40,7 +68,8 @@
         padding: 2rem;
         border-radius: 12px;          /* rounded corners */
         box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* subtle shadow */
-        width: 450px;                 /* fixed width for readability */
+        max-width: fit-content;
+        width: 800px;                 /* fixed width for readability */
         text-align:left;
     }
 </style>

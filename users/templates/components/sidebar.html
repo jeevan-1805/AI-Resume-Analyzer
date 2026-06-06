@@ -1,10 +1,10 @@
-
+{% load static %}
 <aside class="sidebar" id="sidebar">
 
         <!-- Brand / Logo -->
         <div class="sidebar-brand">
-            <span class="brand-icon">📄</span>
-            <span class="brand-name">ResumeAI</span>
+            <span class="brand-icon"><img src="{% static 'icons/logo.png' %}" alt="📄" class="logo" width="80px"></span>
+        <span class="brand-name">ResumeAI</span>
         </div>
 
         <h2>My Resumes</h2>
@@ -52,28 +52,37 @@
         <div class="sidebar-footer">
             {% if user.is_authenticated %}
                 <span class="sidebar-user">User: {{ user.username }}</span>
-                <div class="authBtn">
-                    <form action="{% url 'logout' %}" method="post" id="authForm">
-                        {% csrf_token %}
-                        <button type="submit" class="sidebar-auth-link">Log out</button>
-                        <button type="button" onclick="location.href='{% url 'users:delete_account' %}'" style="background-color: red;">Delete Account</button>
-                        <button type="button" onclick="location.href='/'" style="background-color: rgb(158, 134, 0);">Home</button>
-                    </form>
-                        
+                <div class="authBtn">  
+                    <button type="button" onclick="location.href='/'" style="background-color: rgb(158, 134, 0);">Home</button>
                 </div>
             {% else %}
+                <div id="noAuthDiv">
                 <p style="font-size: 15px; text-align: center;">Sign Up to Register / Log in to continue</p>
-                <button type="button" onclick="location.href='{% url 'login' %}'" class="sidebar-auth-link">Log in</button>
-                <button type="button" onclick="location.href='{% url 'users:register' %}'" class="sidebar-auth-link sidebar-auth-link--accent">Sign up</button>
+                <div class="noauth-btn">
+                    <button type="button" onclick="location.href='{% url 'login' %}'" class="sidebar-auth-link">Log in</button>
+                    <button type="button" onclick="location.href='{% url 'users:register' %}'" class="sidebar-auth-link sidebar-auth-link--accent">Sign up</button>
+                </div>
+                </div>
             {% endif %}
 
         </div>
 </aside>
 <style>
-    .authBtn{
-        display: flex;
-        flex-direction: row;
+    .authBtn button{
+        align-content: center;
+        margin-left: auto;
+        margin-right: 3rem;
+        padding: 10px;
     }
+
+    .sidebar-user{
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+    .authBtn{
+        margin: 10px;
+    }
+    
 </style>
 <script>
 

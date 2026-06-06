@@ -301,3 +301,72 @@ deleteBtn.addEventListener("click", async () =>{
         window.location.href = "/";
     }
 });
+
+const shareBtn =
+    document.getElementById(
+        "shareResumeBtn"
+    );
+
+const shareModal =
+    document.getElementById(
+        "shareModal"
+    );
+
+shareBtn.addEventListener(
+    "click",
+    () => {
+
+        shareModal.classList.remove(
+            "hidden"
+        );
+
+    }
+);
+
+const closeBtn =
+    document.getElementById(
+        "closeShareModal"
+    );
+
+closeBtn.addEventListener(
+    "click",
+    () => {
+
+        shareModal.classList.add(
+            "hidden"
+        );
+
+    }
+);
+
+const shareSearch =
+    document.getElementById(
+        "shareUserSearch"
+    );
+
+shareSearch.addEventListener(
+    "input",
+    function(){
+
+        const searchText =
+            this.value.toLowerCase();
+
+        const cards =
+            document.querySelectorAll(
+                ".share-user-card"
+            );
+
+        cards.forEach(card=>{
+
+            const text =
+                card.innerText.toLowerCase();
+
+            card.style.display =
+                text.includes(searchText)
+                ? "block"
+                : "none";
+
+        });
+
+    }
+);

@@ -26,6 +26,7 @@ def generate_resume_feedback(resume_text):
         Use `#` for headings
         Use `**bold**` for emphasis
         Use `-` for bullet points
+        Use `---` for horizontal lines between sections
         Use blockquotes `>` or fenced code blocks for boxed sections and give:
 
     1. ATS improvement suggestions
@@ -98,6 +99,11 @@ def optimize_executive_summary(resume_text, target_role=None, general=False):
         {resume_text}
 
         Return ONLY the optimized executive summary.
+        Make it:
+        - professional
+        - concise
+        - ATS friendly
+        - grammatically strong
         """
     try:
         response = client.chat.completions.create(

@@ -9,7 +9,7 @@
 {% block content %}
     <div class="app-container">
 
-        {% include "components/sidebar.html" %}
+        
         <div class="rdsub1">
                 <div class="resume-title-container">
 
@@ -39,16 +39,132 @@
                 {% include "components/editor_section.html" %}
 
                 <div class="footerbtns">
-                    <button id="deleteResumeBtn">
+                    <button class="link-btn fb" style="background-color: red;" id="deleteResumeBtn">
                         Delete Resume
                     </button>
 
-                    <button id="downloadResumeBtn" type="button" onclick='window.open("{% url 'users:download_resume' resume.id %}", "_blank")' >
+                    <button class="link-btn fb" type="button" onclick='window.open("{% url 'users:download_resume' resume.id %}", "_blank")' >
                         View & Download Resume
+                    </button>
+
+                    <button
+                        id="shareResumeBtn"
+                        class="link-btn fb"
+                        type="button"
+                    >
+                        Share
                     </button>
                 </div>
         </div>
     </div>
+<div
+    id="shareModal"
+    class="share-modal hidden"
+>
+
+    <div class="share-modal-content">
+        <button
+            type="button"
+            id="closeShareModal"
+        >
+            ✕
+        </button>
+
+        <h3 id="shareModalTitle">
+            Share Resume
+        </h3>
+
+        <form
+            method="post"
+            action="{% url 'users:share_resume' resume.id %}"
+        >
+
+            {% csrf_token %}
+            <input
+                type="text"
+                id="shareUserSearch"
+                placeholder="Search users..."
+                class="share-search"
+            />
+            <div class="share-users-container">
+            {% for user in users %}
+
+                {% if user != request.user %}
+
+                    <div class="share-user-card">
+
+                        <label class="share-user-label">
+
+                            <input
+                                type="checkbox"
+                                name="selected_users"
+                                value="{{ user.id }}"
+                                class="share-user-checkbox"
+                            >
+
+                            {% if user.profile.profile_image %}
+
+                                <img
+                                    src="{{ user.profile.profile_image.url }}"
+                                    class="share-user-image"
+                                >
+
+                            {% else %}
+
+                                <div class="share-user-initial">
+
+                                    {{ user.username|first|upper }}
+
+                                </div>
+
+                            {% endif %}
+
+                            <div class="share-user-info">
+
+                                <strong>
+
+                                    {% if user.profile.display_name %}
+
+                                        {{ user.profile.display_name }}
+
+                                    {% else %}
+
+                                        {{ user.username }}
+
+                                    {% endif %}
+
+                                </strong>
+
+                                <span>
+
+                                    @{{ user.username }}
+
+                                </span>
+
+                            </div>
+
+                        </label>
+
+                    </div>
+
+                    <br>
+                
+                {% endif %}
+
+            {% endfor %}
+            </div>
+
+            <button type="submit">
+
+                Share
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 {% endblock  %}
 {% block extra_js %}
     <script>
@@ -58,6 +174,7 @@
         const strengthScore = {{ resume.strength_score|default:0 }};
         const aiFeedback = `{{ resume.ai_feedback|default_if_none:""|escapejs }}`;
         const jobRoles = JSON.parse('{{ job_roles|escapejs }}');
+
     </script>
 
     <script src="{% static 'js/resume_detail.js' %}"></script>

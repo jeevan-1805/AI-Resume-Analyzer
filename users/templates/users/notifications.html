@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}
+Notifications
+{% endblock %}
+
+{% block content %}
+
+<h1 id="notify-h1">
+    Notifications
+</h1>
+<hr><br>
+
+{% for notification in notifications %}
+
+    <a
+        href="{% url 'users:open_notification' notification.id %}"
+        style="
+            display:block;
+            text-decoration:none;
+            color:inherit;
+        "
+    >
+        <div class="notification-card"
+            style="
+                border:1px solid #ddd;
+                border-radius: 15px;
+                padding:15px;
+                margin-bottom:10px;
+                background-color:whitesmoke;
+
+                {% if not notification.is_read %}
+                    background:#eef7ff;
+                    border-left:4px solid #3b82f6;
+                {% endif %}
+            "
+        >
+
+            <h3>
+                {{ notification.title }}
+            </h3>
+
+            <div
+                style="
+                    font-weight:500;
+                    margin-bottom:5px;
+                    color:#555;
+                "
+            >
+
+                {{ notification.sender.username }}:
+
+            </div>
+
+            <p>
+                "{{ notification.message }}"
+            </p>
+
+            <small>
+                {{ notification.created_at|naturaltime }}
+            </small>
+
+        </div>
+    </a>
+
+{% empty %}
+
+    <p style="margin: 5%; opacity: 0.6; font-style: italic;">
+        No notifications.
+    </p>
+
+{% endfor %}
+<style>
+    a:hover{
+        background-color:rgba(0,0,0,0);
+    }
+   
+    .notification-card{
+        transition: 0.3s ease;
+    }
+    .notification-card:hover{
+        box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.5);
+    }
+    .main-content{
+        overflow-y: auto;
+    }
+</style>
+
+{% endblock %}

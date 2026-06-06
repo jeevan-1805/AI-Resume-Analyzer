@@ -1,0 +1,391 @@
+{% extends "base.html" %}
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div class="chat-page">
+    <div class="chat-header">
+        <div class="chat-user-info">
+
+            <div style="display: flex; flex-direction: row;">
+
+                {% if other_user.profile.profile_image %}
+                    <span id="backArrow" onclick="location.href='{% url 'users:chat_list' %}'">↼</span>
+                    <a href="{% url 'users:view_user_profile' other_user.id %}">
+                        <img
+                            src="{{ other_user.profile.profile_image.url }}"
+                            alt="Profile"
+                            class="chat-profile-image"
+                        >
+                    </a>
+
+                {% else %}
+                    <a href="{% url 'users:view_user_profile' other_user.id %}">
+                        <div class="chat-profile-placeholder">
+
+                            {{ other_user.username|first|upper }}
+
+                        </div>
+                    </a>
+
+                {% endif %}
+                <div id="spandiv">
+                <h1>
+                    {{ other_user.username }}
+                </h1>
+                {% if other_user.id == 1 %}
+                <span class="super-user-badge" id="chatspan">
+
+                    ★ Super User 
+
+                </span>
+                {% endif %}
+                </div>
+            </div>
+            <p>
+                Temporary chat. Messages delete after 7 days.
+            </p>
+
+            
+
+        </div>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+
+        {% for msg in messages %}
+
+            <div
+                class="
+                chat-message
+
+                {% if msg.sender == request.user %}
+
+                    sent
+
+                {% else %}
+
+                    received
+
+                {% endif %}
+                "
+                data-message-id="{{ msg.id }}"
+            >
+
+                <p>
+
+                    {{ msg.message }}
+
+                </p>
+                {% if msg.shared_resume %}
+
+                    <div class="shared-resume-card" onclick='location.href="{% url 'users:open_shared_resume' msg.shared_resume.id %}"'>
+
+                        <h4 class="resume-title">
+                            {{ msg.shared_resume.title }}
+                        </h4>
+
+                        <div class="ats-box">
+                            ATS:
+                            {{ msg.shared_resume.ats_score }}
+                        </div>
+
+                        <div class="strength-box">
+                            Strength:
+                            {{ msg.shared_resume.strength_score }}
+                        </div>
+
+                    </div>
+                
+                {% endif %}
+
+                <small>
+
+                    {{ msg.created_at }}
+
+                </small>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+    {% if shared_resume %}
+
+    <div id="msgarea">
+        <div
+            class="pending-share-card"
+        >
+
+            <strong>
+
+                Commenting on:
+
+            </strong>
+
+            <div class="public-post-card">
+
+                <h4>
+
+                    {{ shared_resume.title }}
+
+                </h4>
+
+                <p>
+
+                    ATS:
+                    {{ shared_resume.ats_score }}
+
+                </p>
+
+                <p>
+
+                    Strength:
+                    {{ shared_resume.strength_score }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+        <form method="post" action="{% url 'users:chat' other_user.id %}">
+
+            {% csrf_token %}
+            {% if shared_resume %}
+
+            <input
+                type="hidden"
+                name="resume_id"
+                value="{{ shared_resume.id }}"
+            >
+
+            {% endif %}
+
+            <textarea
+            id="msgtxt"
+                name="message"
+                placeholder="Type message..."
+                required
+            ></textarea>
+
+            <button id="sendmsg" type="submit">
+
+                Send
+
+            </button>
+
+        </form>
+    </div>
+</div>
+
+
+<style>
+    #msgarea{
+        background-color: rgb(0, 219, 219);
+        border-radius: 20px;
+        margin: 10px;
+    }
+    
+
+    .chat-page{
+
+        height:100vh;
+
+        display:flex;
+
+        flex-direction:column;
+
+        position:relative;
+    }
+    
+    form{
+        position: relative;
+        display: flex;
+        flex-direction: row;
+    }
+    
+    
+    small{
+        font-size:12px;
+        opacity: 0.5;
+    }
+    
+    .pending-share-card{
+        margin-top:10px;
+        margin-left: 15px;
+    }
+</style>
+<script>
+
+window.addEventListener(
+    "load",
+    () => {
+
+        const chatBox =
+            document.getElementById(
+                "chatBox"
+            );
+
+        if(chatBox){
+
+            chatBox.scrollTop =
+                chatBox.scrollHeight;
+
+        }
+
+    }
+);
+
+function getLastMessageId(){
+
+    const messages =
+        document.querySelectorAll(
+            ".chat-message"
+        );
+
+    if(messages.length === 0){
+
+        return 0;
+
+    }
+
+    return parseInt(
+
+        messages[
+            messages.length - 1
+        ].dataset.messageId
+
+    );
+
+}
+
+const currentUserId =
+    {{ request.user.id }};
+
+function appendMessage(msg){
+
+    const chatBox =
+        document.getElementById(
+            "chatBox"
+        );
+
+    const isSent =
+        msg.sender_id ===
+        currentUserId;
+
+    const messageDiv =
+        document.createElement(
+            "div"
+        );
+
+    messageDiv.className =
+        `chat-message ${
+            isSent
+                ? "sent"
+                : "received"
+        }`;
+
+    messageDiv.dataset.messageId =
+        msg.id;
+
+    let resumeCard = "";
+
+    if(msg.shared_resume){
+
+        resumeCard = `
+
+            <div
+                class="shared-resume-card"
+                onclick="
+                    location.href=
+                    'shared-resume/${msg.shared_resume.id}/'
+                "
+            >
+
+                <h4 class="resume-title">
+
+                    ${msg.shared_resume.title}
+
+                </h4>
+
+                <div class="ats-box">
+
+                    ATS:
+                    ${msg.shared_resume.ats_score}
+
+                </div>
+
+                <div class="strength-box">
+
+                    Strength:
+                    ${msg.shared_resume.strength_score}
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+    messageDiv.innerHTML = `
+
+        ${msg.message
+            ? `<p>${msg.message}</p>`
+            : ""
+        }
+
+        ${resumeCard}
+
+        <small>
+
+            ${msg.created_at}
+
+        </small>
+
+    `;
+
+    chatBox.appendChild(
+        messageDiv
+    );
+
+    chatBox.scrollTop =
+        chatBox.scrollHeight;
+
+}
+
+async function pollMessages(){
+
+    const lastId =
+        getLastMessageId();
+
+    const response =
+        await fetch(
+
+            `/chat/{{ other_user.id }}/new-messages/?last_id=${lastId}`
+
+        );
+
+    const data =
+        await response.json();
+
+    data.messages.forEach(
+        appendMessage
+    );
+
+}
+
+setInterval(
+
+    pollMessages,
+
+    5000
+
+);
+
+</script>
+
+{% endblock %}

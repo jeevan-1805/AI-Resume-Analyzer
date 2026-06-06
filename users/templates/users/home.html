@@ -11,13 +11,8 @@
 {% block content %}
 
 <div class="app-container">
-    {% include "components/sidebar.html" %}
-<div class="main-content" style="
-                                flex: 1;
-                                display: flex;
-                                flex-direction: column;   /* stack title above card */
-                                align-items: center;  /* align left, not centered */
-                                padding: 2rem;">
+    
+<div class="div-main-content" >
     <header>
         <h1 style="text-align: center;">{% block page_title %}AI Resume Analyser{% endblock %}</h1>
         <p style="text-align: center;">Get ATS score, Resume Strength, AI Feedback and<br>tailored executive summary for your Resume</p>

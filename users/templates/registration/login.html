@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    {% block content %}
+    {% block auth_content %}
     <div class="container">
 
         <h2>Login</h2>
@@ -19,8 +19,27 @@
 
             {{ form.as_p }}
 
+            
+        <div class="google-login-section">
             <button type="submit">Login</button>
         </form>
+
+            <div class="divider">
+
+                <span>OR</span>
+
+            </div>
+
+            <a
+                href="/accounts/google/login/"
+                class="google-login-btn"
+            >
+
+                Continue with Google
+
+            </a>
+
+        </div>
         <p style="text-align: center;">New User? Register here.</p>
         <button type="button" onclick='location.href="{% url 'users:register' %}"'>Register</button>
         {% include 'components/loading.html' %}

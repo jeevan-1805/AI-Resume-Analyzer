@@ -10,7 +10,7 @@
     <title>{% block title %}AI Resume Analyser{% endblock %}</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'icons/title.png' %}" style="filter: invert(100%);">
 
     <!-- Global Stylesheet -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -26,16 +26,134 @@
     <div id="sidebarOverlay"
         class="sidebar-overlay">
     </div>
+    {% if request.user.is_authenticated %}
+    <div class="notification-wrapper">
+
+        <button
+            id="notificationBtn"
+            class="notification-btn"
+        >
+
+            <img src="{% static 'icons/notification.png' %}" alt="🔔" width="25px" height="25px">
+
+            {% if notification_count > 0 %}
+
+            <span 
+                class="profile-notification"
+                id="notificationBadge"
+                {% if global_unread_count == 0 %}
+                    style="display:none;"
+                {% endif %}
+            >
+
+                {{ notification_display }}
+
+            </span>
+
+        {% endif %}
+
+        </button>
+
+        <div
+            id="notificationDropdown"
+            class="notification-dropdown"
+        >
+
+            {% for notification in recent_notifications %}
+
+                <a
+                    href="{% url 'users:open_notification' notification.id %}"
+                    class="notification-item"
+                    style="
+                        .:hover{
+                            background-color: beige;
+                        }
+                        background-color: whitesmoke;
+                        {% if not notification.is_read %}
+                            background-color:aqua;
+                        {% endif %}
+                    "
+                >
+
+                    <strong>
+
+                        {{ notification.title }}
+
+                    </strong>
+
+                    <p>
+
+                        {{ notification.message }}
+
+                    </p>
+
+                </a>
+
+            {% empty %}
+
+                <p style="margin: 5%; opacity: 0.6; font-style: italic;">
+
+                    No notifications
+
+                </p>
+
+            {% endfor %}
+
+            <a
+                href="{% url 'users:notifications' %}"
+                class="notification-all"
+            >
+
+                View All Notifications
+
+            </a>
+
+        </div>
+
+    </div>
+    <div class="profile-wrapper">
+        
+        <a
+            href="{% url 'users:profile' %}"
+            class="top-profile-btn"
+        >
+
+            {% if request.user.profile.profile_image %}
+
+                <img
+                    src="{{ request.user.profile.profile_image.url }}"
+                    class="top-profile-image"
+                >
+
+            {% else %}
+
+                <div class="top-profile-letter">
+
+                    {{ request.user.username|first|upper }}
+
+                </div>
+
+            {% endif %}
+
+            <span id="username">
+
+                {{ request.user.username }}
+
+            </span>
+
+        </a>
+        
+        
+    </div>
+    {% endif %}
+
 
 <div class="app-container">
 
-    <!-- ═══════════════════════════════════════════
-         SIDEBAR
-         Extend `sidebar_content` in child templates
-         to inject resume list items, nav links, etc.
-    ═══════════════════════════════════════════ -->
-    {% block sidebar %}
     
+    
+    {% block sidebar %}
+        {% include 'components/sidebar.html' %}
     {% endblock %}
 
     <!-- ═══════════════════════════════════════════
@@ -46,20 +164,43 @@
     <main class="main-content">
 
         <!-- Page-level heading (child templates can override) -->
+        {% block header %}
         <header class="main-header">
 
             <!-- Flash / Django messages -->
-            {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <div class="message message--{{ message.tags }}">
+            <div class="notification-container" id="liveNotificationContainer">
+                {% if messages %}
+            
+
+                {% for message in messages %}
+
+                    <div
+                        class="notification notification-{{ message.tags }}"
+                    >
+
+                        <span class="notification-text">
+
                             {{ message }}
-                            <button class="message-close" aria-label="Dismiss">&times;</button>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
+
+                        </span>
+
+                        <button
+                            class="notification-close"
+                            aria-label="Dismiss"
+                        >
+
+                            &times;
+
+                        </button>
+
+                    </div>
+
+                {% endfor %}
+
+                {% endif %}
+            </div>
         </header>
+        {% endblock %}
 
         <!-- Primary page content lives here -->
         {% block content %}{% endblock %}
@@ -68,6 +209,7 @@
 
 </div><!-- /.app-container -->
 
+
 <!-- ═══════════════════════════════════════════
      SCRIPTS
      Global JS first, then per-page extras.
@@ -75,6 +217,271 @@
 <script>
     const isAuthenticated =
         "{{ request.user.is_authenticated }}" === "True";
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+            const notifications =
+                document.querySelectorAll(
+                    ".notification"
+                );
+
+            notifications.forEach(
+                (notification) => {
+
+                    const closeButton =
+                        notification.querySelector(
+                            ".notification-close"
+                        );
+
+                    closeButton.addEventListener(
+                        "click",
+                        () => {
+
+                            notification.classList.add(
+                                "notification-hide"
+                            );
+
+                            setTimeout(
+                                () => notification.remove(),
+                                300
+                            );
+                        }
+                    );
+
+                    setTimeout(
+                        () => {
+
+                            notification.classList.add(
+                                "notification-hide"
+                            );
+
+                            setTimeout(
+                                () => notification.remove(),
+                                300
+                            );
+
+                        },
+                        5000
+                    );
+
+                }
+            );
+
+        }
+    );
+
+    const notificationBtn =
+        document.getElementById(
+            "notificationBtn"
+        );
+
+    const notificationDropdown =
+        document.getElementById(
+            "notificationDropdown"
+        );
+
+    if(notificationBtn){
+
+        notificationBtn.addEventListener(
+            "click",
+            () => {
+
+                notificationDropdown.classList.toggle(
+                    "show"
+                );
+
+            }
+        );
+
+        document.addEventListener(
+            "click",
+            (e) => {
+
+                if(
+                    !notificationBtn.contains(e.target)
+                    &&
+                    !notificationDropdown.contains(e.target)
+                ){
+
+                    notificationDropdown.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+    }
+function showLiveNotification(
+    title,
+    message,
+    url
+){
+
+    const container =
+        document.getElementById(
+            "liveNotificationContainer"
+        );
+
+    const notification =
+        document.createElement(
+            "div"
+        );
+
+    notification.className =
+        "notification notification-info";
+
+    notification.innerHTML = `
+
+        <span
+            class="notification-text"
+        >
+
+            <strong>${title}</strong><br>
+
+            ${message}
+
+        </span>
+
+        <button
+            class="notification-close"
+        >
+
+            &times;
+
+        </button>
+
+    `;
+
+    notification.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                url;
+
+        }
+    );
+
+    notification
+        .querySelector(
+            ".notification-close"
+        )
+        .addEventListener(
+            "click",
+            (e) => {
+
+                e.stopPropagation();
+
+                notification.remove();
+
+            }
+        );
+
+    container.appendChild(
+        notification
+    );
+
+    setTimeout(
+        () => {
+
+            notification.remove();
+
+        },
+        5000
+    );
+
+}
+const seenNotifications =
+    new Set();
+
+async function pollNotifications(){
+
+    if(
+        !isAuthenticated
+    ){
+        return;
+    }
+
+    const response =
+        await fetch(
+            "/notifications/api/"
+        );
+
+    const data = await response.json();
+
+    updateBadge(data.unread_count);
+
+    data.notifications.forEach(
+        notification => {
+
+            if(
+                seenNotifications.has(
+                    notification.id
+                )
+            ){
+                return;
+            }
+
+            seenNotifications.add(
+                notification.id
+            );
+
+            showLiveNotification(
+
+                notification.title,
+
+                notification.message,
+
+                notification.url
+
+            );
+
+        }
+    );
+
+}
+
+setInterval(
+
+    pollNotifications,
+
+    5000
+
+);
+
+function updateBadge(
+    count
+){
+
+    const badge =
+        document.getElementById(
+            "notificationBadge"
+        );
+
+    if(!badge){
+        return;
+    }
+
+    if(count <= 0){
+
+        badge.style.display =
+            "none";
+
+        return;
+    }
+
+    badge.style.display =
+        "flex";
+
+    badge.textContent =
+        count > 99
+            ? "99+"
+            : count;
+
+}
 </script>
 <script src="{% static 'js/app.js' %}"></script>
 <script src="{% static 'js/sidebar.js' %}"></script>
