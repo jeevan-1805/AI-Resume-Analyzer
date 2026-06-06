@@ -27,7 +27,7 @@
                 {% if profile.profile_image %}
 
                     <img
-                        src="{{ profile.profile_image.url }}"
+                        src="{{ profile.profile_image_url }}"
                         class="profile-image-preview"
                     >
 
@@ -284,7 +284,7 @@
 
                     <img
                         src="
-                        {{ post.user.profile.profile_image.url }}
+                        {{ post.user.profile.profile_image_url }}
                         "
                         class="post-profile-image"
                     >

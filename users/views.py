@@ -10,7 +10,7 @@ from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
-from .services.supabase_storage import get_supabase_client, upload_resume_file, delete_resume_file
+from .services.supabase_storage import get_supabase_client, upload_resume_file, delete_resume_file, upload_profile_image, delete_profile_image
 from users.models import Resume
 from .models import (
     Resume, 
@@ -413,9 +413,26 @@ def profile_view(request):
             "profile_image"
         ):
 
-            profile.profile_image = request.FILES[
+            new_file = request.FILES[
                 "profile_image"
             ]
+
+            if profile.profile_image:
+
+                delete_profile_image(
+                    profile.profile_image
+                )
+
+            file_path = (
+                upload_profile_image(
+                    new_file,
+                    request.user.id
+                )
+            )
+
+            profile.profile_image = (
+                file_path
+            )
 
         profile.save()
 

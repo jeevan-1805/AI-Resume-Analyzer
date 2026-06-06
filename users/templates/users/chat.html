@@ -13,7 +13,7 @@
                     <span id="backArrow" onclick="location.href='{% url 'users:chat_list' %}'">↼</span>
                     <a href="{% url 'users:view_user_profile' other_user.id %}">
                         <img
-                            src="{{ other_user.profile.profile_image.url }}"
+                            src="{{ other_user.profile.profile_image_url }}"
                             alt="Profile"
                             class="chat-profile-image"
                         >

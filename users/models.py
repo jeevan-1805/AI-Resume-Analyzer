@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from .services.supabase_storage import get_supabase_client
 
 class Resume(models.Model):
     user = models.ForeignKey(
@@ -31,11 +32,30 @@ class Profile(models.Model):
         blank=True
     )
 
-    profile_image = models.ImageField(
-        upload_to="profile_images/",
+    profile_image = models.CharField(
+        max_length=500,
         blank=True,
         null=True
     )
+
+    @property
+    def profile_image_url(self):
+
+        if not self.profile_image:
+
+            return None
+
+        supabase = get_supabase_client()
+
+        return (
+
+            supabase.storage
+            .from_("profile-images")
+            .get_public_url(
+                self.profile_image
+            )
+
+        )
 
 
     def __str__(self):
