@@ -8,7 +8,7 @@
 }
 
 body {
-    background-color: aqua;
+    background-color: rgb(190 221 221);
     height: 100%; /* Full viewport height */
     margin: 0;
     padding: 0;
@@ -629,7 +629,7 @@ button {
         padding-left: 0;
     }
     .div-main-content{
-        margin-top: 5rem;
+        margin-top: 3rem;
         gap: 5rem;
     }
     
@@ -2425,7 +2425,13 @@ textarea {
 #notify-h1{
         margin-top: 5%;
         margin-bottom: 5%;
-    }
+}
+.homehead{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 @media screen and (max-width: 768px) {
     .profile-image-box{
         border-radius: 50%;
@@ -2441,6 +2447,7 @@ textarea {
     .profile-left{
         align-items: center;
         margin: auto;
+        margin-top: 80px;
     }
     .profile-action-btn{
         text-align: center;
@@ -2448,11 +2455,14 @@ textarea {
         width: fit-content;
     }
     .public-post-card{
-        margin-right: 5%;
-        width: 370px;
+        margin:auto;
+        width: 340px;
     }
 
     .public-room-feed {
+        margin-left: auto;
+        margin-bottom: 20px;
+        width: 100%;
 
         display: flex;
 
@@ -2606,6 +2616,7 @@ textarea {
     .footerbtns{
         align-items: center;
         width: 100%;
+        margin-bottom: 30px;
     }
 
     .fb{
@@ -2674,7 +2685,8 @@ textarea {
 
     .notification{
         max-width: 350px;
-        width: 350px;
+        width: 270px;
+        padding: 20px;
     }
 
     .notification-text{
@@ -2686,6 +2698,8 @@ textarea {
 
     .notification-close{
         width: min-content;
+        margin-left: auto;
+        margin-right: -20px;
     }
 
     #backArrow{
@@ -2763,5 +2777,18 @@ textarea {
 
     #notify-h1{
         margin-left: 15%;
+    }
+    .close-modal{
+        width: min-content;
+        margin-left: auto;
+    }
+    #uploadSection{
+        margin-top: -70px;
+    }
+    .sidebar-footer{
+        margin-bottom: 20%;
+    }
+    #resumeTitleInput{
+        margin-top: 10%;
     }
 }
