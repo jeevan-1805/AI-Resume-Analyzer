@@ -2105,11 +2105,6 @@ textarea {
 
 .notification-btn{
     color: transparent;
-    text-shadow:
-        -1px -1px 0 black,
-        1px -1px 0 black,
-        -1px  1px 0 black,
-        1px  1px 0 black;
     position:relative;
     cursor:pointer;
     border:none;
@@ -2120,7 +2115,14 @@ textarea {
     width: 50px;
     height: 50px;
     margin-right:-10px;
+    box-shadow: 0px 0px 10px 5px rgba(
+            0,
+            0,
+            0,
+            0.1
+        );
     transition: 0.3s ease;
+    
 }
 
 .notification-btn img{
@@ -2589,17 +2591,17 @@ textarea {
         margin-right: 0px;
     }
     .chat-user-info p{
-        font-size: 15px;
+        font-size: 13px;
     }
     .chat-user-info h1{
-        font-size: 20px;
+        font-size: 18px;
         text-align: left;
         margin-top:12px;
         margin-left:-20px;
     }
     .chat-profile-image{
-        width: 80px;
-        height: 50px;
+        width: 70px;
+        height: 40px;
         margin-top: 0px;
         margin-right: auto;
         margin-left: -30px;
@@ -2666,9 +2668,15 @@ textarea {
         margin-bottom: auto;;
     }
      .notification-btn{
-        margin-left: 25%;
-        width: 60px;
+        margin-left: 100%;
+        margin-top: -12px;
+        width: 50px;
+        height: 40px;
      }
+    .notification-btn img{
+        width: 20px;
+        height: 20px;
+    }
 
     .notification-container{
         height: 6%;
@@ -2704,7 +2712,7 @@ textarea {
 
     #backArrow{
         font-size: 20px;
-        margin-top:15px;
+        margin-top:10px;
         align-items: center;
         text-align: left;
     }
@@ -2790,5 +2798,18 @@ textarea {
     }
     #resumeTitleInput{
         margin-top: 10%;
+    }
+    .chat-page form{
+        margin-bottom: 30px;
+    }
+    .top-profile-btn{
+        top: 7px;
+        right: 10px;
+        gap: 5px;
+        font-size: 12px;
+    }
+    .top-profile-image{
+        width: 35px;
+        height: 35px;
     }
 }
