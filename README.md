@@ -124,20 +124,24 @@ Version 1: Remastered transforms the project into a professional resume communit
 - Mobile Responsive UI
 - Public Resume Discovery
 - Resume Discussion System
-- Improved ATS Engine
-- Summary Detection Scoring
-- Technical Skill Detection
-- Project Detection
-- Achievement Detection
-- Improved Resume Strength Calculation
-- Improved Account Security
-- Improved Google Account Management
 
 ### Planned Enhancements For Version 1: Remastered
 
-- ATS Breakdown Dashboard
-- Role-Specific ATS Analysis
-- Job description vs Resume match analysis
+- [x] Improved ATS Engine
+- [x] Summary Detection Scoring
+- [x] Technical Skill Detection
+- [x] Project Detection
+- [x] Achievement Detection
+- [x] Improved Resume Strength Calculation
+- [x] Improved Account Security
+- [x] Improved Google Account Management
+- [] NLP based ATS calculation
+- [] AI Resume Comparison summary
+- [] Strength score based leveling System
+- [] ATS Breakdown Dashboard
+- [] Role-Specific ATS Analysis
+- [] Job description vs Resume match analysis
+
 
 ## Long-Term Future Vision (Version 2)
 

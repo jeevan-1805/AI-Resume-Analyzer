@@ -1,6 +1,9 @@
 from PyPDF2 import PdfReader
 import re
-
+from .resume_parser import (
+    extract_resume_structure,
+    deduplicate_projects
+)
 
 # ===============================
 # ATS CONSTANTS
@@ -172,6 +175,103 @@ def extract_text_from_pdf(pdf_file):
 # ===============================
 # ATS SCORING FUNCTIONS
 # ===============================
+
+def ats_skills_score(
+    consistency_data
+):
+
+    skills = (
+        consistency_data.get(
+            "skills",
+            {}
+        )
+    )
+
+    relevant_skills = sum(
+
+        1
+
+        for value in skills.values()
+
+        if value is True
+
+    )
+
+    if relevant_skills >= 6:
+
+        return 20
+
+    elif relevant_skills >= 3:
+
+        return 10
+
+    elif relevant_skills >= 1:
+
+        return 5
+
+    return 0
+
+def ats_project_score(
+    consistency_data
+):
+
+    projects = (
+        consistency_data.get(
+            "projects",
+            {}
+        )
+    )
+
+    if not projects:
+
+        return 0
+
+    relevant_projects = sum(
+
+        1
+
+        for value in projects.values()
+
+        if value is True
+
+    )
+
+    if relevant_projects >= 1:
+
+        return 15
+
+    return 5
+
+def ats_experience_score(
+    consistency_data
+):
+
+    experience = (
+        consistency_data.get(
+            "experience",
+            {}
+        )
+    )
+
+    if not experience:
+
+        return 0
+
+    relevant_experience = sum(
+
+        1
+
+        for value in experience.values()
+
+        if value is True
+
+    )
+
+    if relevant_experience >= 1:
+
+        return 20
+
+    return 5
 
 def resume_length_score(text):
 
@@ -374,6 +474,51 @@ def project_quality_score(text):
         return 5
 
     return 0
+
+def nlp_project_score(text):
+
+    try:
+
+        structure = (
+            extract_resume_structure(
+                text
+            )
+        )
+
+        projects = structure.get(
+            "projects",
+            []
+        )
+
+        projects = (
+            deduplicate_projects(
+                projects
+            )
+        )
+
+        project_count = len(
+            projects
+        )
+
+        if project_count >= 5:
+
+            return 15
+
+        elif project_count >= 3:
+
+            return 10
+
+        elif project_count >= 1:
+
+            return 5
+
+        return 0
+
+    except Exception:
+
+        return project_quality_score(
+            text
+        )
 
 def achievement_impact_score(text):
 
@@ -672,7 +817,7 @@ def analyze_resume_text(text):
 
         + summary_quality_score(text)
 
-        + project_quality_score(text)
+        + nlp_project_score(text)
 
         + achievement_impact_score(text)
 
