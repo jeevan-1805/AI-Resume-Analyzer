@@ -135,12 +135,11 @@ Version 1: Remastered transforms the project into a professional resume communit
 - [x] Improved Resume Strength Calculation
 - [x] Improved Account Security
 - [x] Improved Google Account Management
-- [] NLP based ATS calculation
-- [] AI Resume Comparison summary
-- [] Strength score based leveling System
-- [] ATS Breakdown Dashboard
-- [] Role-Specific ATS Analysis
-- [] Job description vs Resume match analysis
+- [x] NLP based ATS calculation
+- [ ] AI Resume Comparison summary
+- [ ] Strength score based leveling System
+- [ ] ATS Breakdown Dashboard
+- [ ] JD Match Score - Job description vs Resume match analysis
 
 
 ## Long-Term Future Vision (Version 2)

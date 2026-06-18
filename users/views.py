@@ -23,7 +23,8 @@ from .models import (
 )
 from .services.ats_engine import (
     extract_text_from_pdf,
-    analyze_resume_text
+    analyze_resume_text,
+    analyze_resume_pdf
 )
 from .services.ai_optimizer import generate_resume_feedback
 
@@ -125,7 +126,7 @@ def analyze_resume(request):
     text = extract_text_from_pdf(uploaded_file)
 
     # Analyze resume
-    analysis = analyze_resume_text(text)
+    analysis = analyze_resume_text(text, uploaded_file)
 
     ai_feedback = generate_resume_feedback(text)
 
@@ -134,6 +135,10 @@ def analyze_resume(request):
     # =========================
 
     title = uploaded_file.name.replace(".pdf", "")
+
+    # =========================
+    # Check Resume Title
+    # =========================
 
     resumes = Resume.objects.filter(user=request.user)
     titles = [r.title for r in resumes]
