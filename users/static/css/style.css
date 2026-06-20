@@ -1079,6 +1079,7 @@ PUBLIC ROOM
     margin: 10px;
     margin-bottom: 5px;
     width: 300px;
+    height: 310px;
     padding: 5px;
 
     background: white;
@@ -1225,6 +1226,7 @@ OTHER USERS
     display:flex;
     align-items:center;
     justify-content:center;
+    justify-self: center;
     font-weight:bold;
     font-size:24px;
     flex-shrink:0;

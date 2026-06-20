@@ -4,7 +4,6 @@ from __future__ import annotations
 import json
 import os
 import re
-import language_tool_python
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -16,6 +15,7 @@ from groq import Groq
 from .resume_parser import (
     extract_resume_structure,
     evaluate_resume_consistency,
+    evaluate_resume_language
 )
 
 try:
@@ -148,10 +148,6 @@ ATS_CRACK_WEIGHTS = {
     "section_completeness": 40,
     "layout_formatting": 40,
 }
-
-GRAMMAR_TOOL = language_tool_python.LanguageTool(
-    "en-US"
-)
 
 # ===============================
 # PDF TEXT EXTRACTION
@@ -927,77 +923,111 @@ def ats_grammar_language_score(
 
     try:
 
-        matches = GRAMMAR_TOOL.check(text)
+        report = evaluate_resume_language(
+            text
+        )
 
-    except Exception:
+    except Exception as e:
 
         return score, {
+
             "base": ATS_CRACK_WEIGHTS["grammar_language"],
+
             "penalties": {},
+
             "detections": {
-                "error": "LanguageTool failed."
+
+                "error": str(e)
+
             }
+
         }
 
     penalties = {
+
         "grammar": 0,
+
         "spelling": 0,
+
         "punctuation": 0,
+
         "capitalization": 0,
+
         "style": 0,
+
         "other": 0,
+
     }
 
     detections = {
-        "grammar": [],
-        "spelling": [],
-        "punctuation": [],
-        "capitalization": [],
-        "style": [],
-        "other": [],
+
+        "grammar": report.get(
+            "grammar",
+            []
+        ),
+
+        "spelling": report.get(
+            "spelling",
+            []
+        ),
+
+        "punctuation": report.get(
+            "punctuation",
+            []
+        ),
+
+        "capitalization": report.get(
+            "capitalization",
+            []
+        ),
+
+        "style": report.get(
+            "style",
+            []
+        ),
+
+        "other": report.get(
+            "other",
+            []
+        ),
+
     }
 
-    for match in matches:
+    penalties["grammar"] = (
+        len(
+            detections["grammar"]
+        ) * 2
+    )
 
-        category = match.category
+    penalties["spelling"] = (
+        len(
+            detections["spelling"]
+        ) * 1
+    )
 
-        issue = {
-            "message": match.message,
-            "context": match.context,
-            "offset": match.offset,
-            "length": match.errorLength,
-            "replacements": match.replacements[:5],
-        }
+    penalties["punctuation"] = (
+        len(
+            detections["punctuation"]
+        ) * 0.5
+    )
 
-        if category == "GRAMMAR":
+    penalties["capitalization"] = (
+        len(
+            detections["capitalization"]
+        ) * 0.5
+    )
 
-            penalties["grammar"] += 2
-            detections["grammar"].append(issue)
+    penalties["style"] = (
+        len(
+            detections["style"]
+        ) * 0.5
+    )
 
-        elif category == "TYPOS":
-
-            penalties["spelling"] += 1
-            detections["spelling"].append(issue)
-
-        elif category == "PUNCTUATION":
-
-            penalties["punctuation"] += 0.5
-            detections["punctuation"].append(issue)
-
-        elif category == "CASING":
-
-            penalties["capitalization"] += 0.5
-            detections["capitalization"].append(issue)
-
-        elif category == "STYLE":
-
-            penalties["style"] += 0.5
-            detections["style"].append(issue)
-
-        else:
-
-            penalties["other"] += 0.5
-            detections["other"].append(issue)
+    penalties["other"] = (
+        len(
+            detections["other"]
+        ) * 0.5
+    )
 
     total_penalty = sum(
         penalties.values()
@@ -1006,8 +1036,19 @@ def ats_grammar_language_score(
     score -= total_penalty
 
     score = max(
+
         round(score, 1),
+
         0
+
+    )
+
+    total_errors = sum(
+
+        len(v)
+
+        for v in detections.values()
+
     )
 
     breakdown = {
@@ -1018,7 +1059,7 @@ def ats_grammar_language_score(
 
         "detections": detections,
 
-        "total_errors": len(matches),
+        "total_errors": total_errors,
 
         "total_penalty": round(
             total_penalty,

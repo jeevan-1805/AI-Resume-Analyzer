@@ -228,3 +228,103 @@ def deduplicate_projects(
             )
 
     return unique_projects
+
+def evaluate_resume_language(
+    resume_text,
+):
+
+    client = Groq(
+        api_key=settings.GROQ_API_KEY
+    )
+
+    prompt = f"""
+You are an ATS grammar and language evaluator.
+
+Your task is ONLY to detect language issues.
+
+Do NOT calculate scores.
+
+Do NOT calculate penalties.
+
+Return ONLY valid JSON.
+
+Categories:
+
+- grammar
+- spelling
+- punctuation
+- capitalization
+- style
+- other
+
+Each issue must contain:
+
+message
+context
+
+Example:
+
+{{
+    "grammar":[
+        {{
+            "message":"Subject and verb do not agree.",
+            "context":"He have worked..."
+        }}
+    ],
+
+    "spelling":[
+        {{
+            "message":"Misspelled word.",
+            "context":"Experiance"
+        }}
+    ],
+
+    "punctuation":[],
+
+    "capitalization":[],
+
+    "style":[],
+
+    "other":[]
+}}
+
+Resume:
+
+{resume_text}
+"""
+
+    response = client.chat.completions.create(
+
+        model="llama-3.3-70b-versatile",
+
+        messages=[
+
+            {
+                "role": "user",
+                "content": prompt
+            }
+
+        ],
+
+        temperature=0
+
+    )
+
+    content = (
+        response
+        .choices[0]
+        .message.content
+        .strip()
+    )
+
+    if content.startswith("```"):
+
+        content = content.strip("`")
+
+        if content.startswith("json"):
+
+            content = content[4:]
+
+        content = content.strip()
+
+    return json.loads(content)
