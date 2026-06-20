@@ -136,6 +136,8 @@ Version 1: Remastered transforms the project into a professional resume communit
 - [x] Improved Account Security
 - [x] Improved Google Account Management
 - [x] NLP based ATS calculation
+- [x] Welcome Page for render deployement
+- [ ] Portfolio Section
 - [ ] AI Resume Comparison summary
 - [ ] Strength score based leveling System
 - [ ] ATS Breakdown Dashboard
