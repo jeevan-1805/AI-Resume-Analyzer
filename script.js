@@ -10,6 +10,7 @@ const liveStatusLabel = document.getElementById("liveStatusLabel");
 const loadingHeadline = document.getElementById("loadingHeadline");
 const readyModal = document.getElementById("readyModal");
 const openAppBtn = document.getElementById("openAppBtn");
+const openAppInline = document.getElementById("openAppInline");
 const closeModalBtn = document.getElementById("closeModalBtn");
 
 const loadingMessages = [
@@ -79,6 +80,7 @@ function completeLoading() {
   );
 
   openAppBtn.disabled = false;
+  openAppInline.disabled = false;
 
   setTimeout(() => {
     openModal();
@@ -150,6 +152,10 @@ function startPinging() {
 }
 
 openAppBtn.addEventListener("click", () => {
+  window.location.href = APP_URL;
+});
+
+openAppInline.addEventListener("click", () => {
   window.location.href = APP_URL;
 });
 

@@ -29,7 +29,6 @@ httplib2==0.31.2
 httpx==0.28.1
 hyperframe==6.1.0
 idna==3.13
-language_tool_python==3.4.0
 markdown-it-py==4.2.0
 mdurl==0.1.2
 mmh3==5.2.1
